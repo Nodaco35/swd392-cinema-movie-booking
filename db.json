@@ -1,0 +1,1318 @@
+{
+  "movies": [
+    {
+      "id": 1,
+      "title": "Galactic Odyssey",
+      "genre": "Sci-Fi",
+      "duration_minutes": 132,
+      "rating": "PG-13",
+      "language": "English",
+      "description": "A pilot and a scientist lead a desperate mission to save a collapsing star system.",
+      "poster_url": "/assets/posters/galactic-odyssey.jpg",
+      "release_date": "2026-02-14"
+    },
+    {
+      "id": 2,
+      "title": "The Last Stand-Up",
+      "genre": "Comedy",
+      "duration_minutes": 104,
+      "rating": "PG",
+      "language": "English",
+      "description": "A shy accountant enters an open-mic contest that spirals wildly out of control.",
+      "poster_url": "/assets/posters/last-standup.jpg",
+      "release_date": "2026-01-05"
+    },
+    {
+      "id": 3,
+      "title": "Silent Harbor",
+      "genre": "Drama",
+      "duration_minutes": 118,
+      "rating": "PG-13",
+      "language": "English",
+      "description": "In a foggy coastal town, a family confronts old secrets when the harbor dries overnight.",
+      "poster_url": "/assets/posters/silent-harbor.jpg",
+      "release_date": "2025-12-01"
+    }
+  ],
+  "cinemas": [
+    {
+      "id": 1,
+      "name": "Downtown Cinema Plaza",
+      "city": "Metro City",
+      "address": "12 Market Street, Metro City",
+      "phone": "+1-555-0101"
+    },
+    {
+      "id": 2,
+      "name": "Riverside Cineplex",
+      "city": "Riverside",
+      "address": "88 Riverside Drive, Riverside",
+      "phone": "+1-555-0202"
+    }
+  ],
+  "auditorium": [
+    {
+      "id": 1,
+      "cinema_id": 1,
+      "name": "Screen 1",
+      "total_seats": 40
+    },
+    {
+      "id": 2,
+      "cinema_id": 1,
+      "name": "Screen 2",
+      "total_seats": 40
+    },
+    {
+      "id": 3,
+      "cinema_id": 2,
+      "name": "Hall A",
+      "total_seats": 40
+    }
+  ],
+  "seats": [
+    {
+      "id": 1,
+      "auditorium_id": 1,
+      "row_label": "A",
+      "seat_number": 1
+    },
+    {
+      "id": 2,
+      "auditorium_id": 1,
+      "row_label": "A",
+      "seat_number": 2
+    },
+    {
+      "id": 3,
+      "auditorium_id": 1,
+      "row_label": "A",
+      "seat_number": 3
+    },
+    {
+      "id": 4,
+      "auditorium_id": 1,
+      "row_label": "A",
+      "seat_number": 4
+    },
+    {
+      "id": 5,
+      "auditorium_id": 1,
+      "row_label": "A",
+      "seat_number": 5
+    },
+    {
+      "id": 6,
+      "auditorium_id": 1,
+      "row_label": "A",
+      "seat_number": 6
+    },
+    {
+      "id": 7,
+      "auditorium_id": 1,
+      "row_label": "A",
+      "seat_number": 7
+    },
+    {
+      "id": 8,
+      "auditorium_id": 1,
+      "row_label": "A",
+      "seat_number": 8
+    },
+    {
+      "id": 9,
+      "auditorium_id": 1,
+      "row_label": "B",
+      "seat_number": 1
+    },
+    {
+      "id": 10,
+      "auditorium_id": 1,
+      "row_label": "B",
+      "seat_number": 2
+    },
+    {
+      "id": 11,
+      "auditorium_id": 1,
+      "row_label": "B",
+      "seat_number": 3
+    },
+    {
+      "id": 12,
+      "auditorium_id": 1,
+      "row_label": "B",
+      "seat_number": 4
+    },
+    {
+      "id": 13,
+      "auditorium_id": 1,
+      "row_label": "B",
+      "seat_number": 5
+    },
+    {
+      "id": 14,
+      "auditorium_id": 1,
+      "row_label": "B",
+      "seat_number": 6
+    },
+    {
+      "id": 15,
+      "auditorium_id": 1,
+      "row_label": "B",
+      "seat_number": 7
+    },
+    {
+      "id": 16,
+      "auditorium_id": 1,
+      "row_label": "B",
+      "seat_number": 8
+    },
+    {
+      "id": 17,
+      "auditorium_id": 1,
+      "row_label": "C",
+      "seat_number": 1
+    },
+    {
+      "id": 18,
+      "auditorium_id": 1,
+      "row_label": "C",
+      "seat_number": 2
+    },
+    {
+      "id": 19,
+      "auditorium_id": 1,
+      "row_label": "C",
+      "seat_number": 3
+    },
+    {
+      "id": 20,
+      "auditorium_id": 1,
+      "row_label": "C",
+      "seat_number": 4
+    },
+    {
+      "id": 21,
+      "auditorium_id": 1,
+      "row_label": "C",
+      "seat_number": 5
+    },
+    {
+      "id": 22,
+      "auditorium_id": 1,
+      "row_label": "C",
+      "seat_number": 6
+    },
+    {
+      "id": 23,
+      "auditorium_id": 1,
+      "row_label": "C",
+      "seat_number": 7
+    },
+    {
+      "id": 24,
+      "auditorium_id": 1,
+      "row_label": "C",
+      "seat_number": 8
+    },
+    {
+      "id": 25,
+      "auditorium_id": 1,
+      "row_label": "D",
+      "seat_number": 1
+    },
+    {
+      "id": 26,
+      "auditorium_id": 1,
+      "row_label": "D",
+      "seat_number": 2
+    },
+    {
+      "id": 27,
+      "auditorium_id": 1,
+      "row_label": "D",
+      "seat_number": 3
+    },
+    {
+      "id": 28,
+      "auditorium_id": 1,
+      "row_label": "D",
+      "seat_number": 4
+    },
+    {
+      "id": 29,
+      "auditorium_id": 1,
+      "row_label": "D",
+      "seat_number": 5
+    },
+    {
+      "id": 30,
+      "auditorium_id": 1,
+      "row_label": "D",
+      "seat_number": 6
+    },
+    {
+      "id": 31,
+      "auditorium_id": 1,
+      "row_label": "D",
+      "seat_number": 7
+    },
+    {
+      "id": 32,
+      "auditorium_id": 1,
+      "row_label": "D",
+      "seat_number": 8
+    },
+    {
+      "id": 33,
+      "auditorium_id": 1,
+      "row_label": "E",
+      "seat_number": 1
+    },
+    {
+      "id": 34,
+      "auditorium_id": 1,
+      "row_label": "E",
+      "seat_number": 2
+    },
+    {
+      "id": 35,
+      "auditorium_id": 1,
+      "row_label": "E",
+      "seat_number": 3
+    },
+    {
+      "id": 36,
+      "auditorium_id": 1,
+      "row_label": "E",
+      "seat_number": 4
+    },
+    {
+      "id": 37,
+      "auditorium_id": 1,
+      "row_label": "E",
+      "seat_number": 5
+    },
+    {
+      "id": 38,
+      "auditorium_id": 1,
+      "row_label": "E",
+      "seat_number": 6
+    },
+    {
+      "id": 39,
+      "auditorium_id": 1,
+      "row_label": "E",
+      "seat_number": 7
+    },
+    {
+      "id": 40,
+      "auditorium_id": 1,
+      "row_label": "E",
+      "seat_number": 8
+    },
+    {
+      "id": 41,
+      "auditorium_id": 2,
+      "row_label": "A",
+      "seat_number": 1
+    },
+    {
+      "id": 42,
+      "auditorium_id": 2,
+      "row_label": "A",
+      "seat_number": 2
+    },
+    {
+      "id": 43,
+      "auditorium_id": 2,
+      "row_label": "A",
+      "seat_number": 3
+    },
+    {
+      "id": 44,
+      "auditorium_id": 2,
+      "row_label": "A",
+      "seat_number": 4
+    },
+    {
+      "id": 45,
+      "auditorium_id": 2,
+      "row_label": "A",
+      "seat_number": 5
+    },
+    {
+      "id": 46,
+      "auditorium_id": 2,
+      "row_label": "A",
+      "seat_number": 6
+    },
+    {
+      "id": 47,
+      "auditorium_id": 2,
+      "row_label": "A",
+      "seat_number": 7
+    },
+    {
+      "id": 48,
+      "auditorium_id": 2,
+      "row_label": "A",
+      "seat_number": 8
+    },
+    {
+      "id": 49,
+      "auditorium_id": 2,
+      "row_label": "B",
+      "seat_number": 1
+    },
+    {
+      "id": 50,
+      "auditorium_id": 2,
+      "row_label": "B",
+      "seat_number": 2
+    },
+    {
+      "id": 51,
+      "auditorium_id": 2,
+      "row_label": "B",
+      "seat_number": 3
+    },
+    {
+      "id": 52,
+      "auditorium_id": 2,
+      "row_label": "B",
+      "seat_number": 4
+    },
+    {
+      "id": 53,
+      "auditorium_id": 2,
+      "row_label": "B",
+      "seat_number": 5
+    },
+    {
+      "id": 54,
+      "auditorium_id": 2,
+      "row_label": "B",
+      "seat_number": 6
+    },
+    {
+      "id": 55,
+      "auditorium_id": 2,
+      "row_label": "B",
+      "seat_number": 7
+    },
+    {
+      "id": 56,
+      "auditorium_id": 2,
+      "row_label": "B",
+      "seat_number": 8
+    },
+    {
+      "id": 57,
+      "auditorium_id": 2,
+      "row_label": "C",
+      "seat_number": 1
+    },
+    {
+      "id": 58,
+      "auditorium_id": 2,
+      "row_label": "C",
+      "seat_number": 2
+    },
+    {
+      "id": 59,
+      "auditorium_id": 2,
+      "row_label": "C",
+      "seat_number": 3
+    },
+    {
+      "id": 60,
+      "auditorium_id": 2,
+      "row_label": "C",
+      "seat_number": 4
+    },
+    {
+      "id": 61,
+      "auditorium_id": 2,
+      "row_label": "C",
+      "seat_number": 5
+    },
+    {
+      "id": 62,
+      "auditorium_id": 2,
+      "row_label": "C",
+      "seat_number": 6
+    },
+    {
+      "id": 63,
+      "auditorium_id": 2,
+      "row_label": "C",
+      "seat_number": 7
+    },
+    {
+      "id": 64,
+      "auditorium_id": 2,
+      "row_label": "C",
+      "seat_number": 8
+    },
+    {
+      "id": 65,
+      "auditorium_id": 2,
+      "row_label": "D",
+      "seat_number": 1
+    },
+    {
+      "id": 66,
+      "auditorium_id": 2,
+      "row_label": "D",
+      "seat_number": 2
+    },
+    {
+      "id": 67,
+      "auditorium_id": 2,
+      "row_label": "D",
+      "seat_number": 3
+    },
+    {
+      "id": 68,
+      "auditorium_id": 2,
+      "row_label": "D",
+      "seat_number": 4
+    },
+    {
+      "id": 69,
+      "auditorium_id": 2,
+      "row_label": "D",
+      "seat_number": 5
+    },
+    {
+      "id": 70,
+      "auditorium_id": 2,
+      "row_label": "D",
+      "seat_number": 6
+    },
+    {
+      "id": 71,
+      "auditorium_id": 2,
+      "row_label": "D",
+      "seat_number": 7
+    },
+    {
+      "id": 72,
+      "auditorium_id": 2,
+      "row_label": "D",
+      "seat_number": 8
+    },
+    {
+      "id": 73,
+      "auditorium_id": 2,
+      "row_label": "E",
+      "seat_number": 1
+    },
+    {
+      "id": 74,
+      "auditorium_id": 2,
+      "row_label": "E",
+      "seat_number": 2
+    },
+    {
+      "id": 75,
+      "auditorium_id": 2,
+      "row_label": "E",
+      "seat_number": 3
+    },
+    {
+      "id": 76,
+      "auditorium_id": 2,
+      "row_label": "E",
+      "seat_number": 4
+    },
+    {
+      "id": 77,
+      "auditorium_id": 2,
+      "row_label": "E",
+      "seat_number": 5
+    },
+    {
+      "id": 78,
+      "auditorium_id": 2,
+      "row_label": "E",
+      "seat_number": 6
+    },
+    {
+      "id": 79,
+      "auditorium_id": 2,
+      "row_label": "E",
+      "seat_number": 7
+    },
+    {
+      "id": 80,
+      "auditorium_id": 2,
+      "row_label": "E",
+      "seat_number": 8
+    },
+    {
+      "id": 81,
+      "auditorium_id": 3,
+      "row_label": "A",
+      "seat_number": 1
+    },
+    {
+      "id": 82,
+      "auditorium_id": 3,
+      "row_label": "A",
+      "seat_number": 2
+    },
+    {
+      "id": 83,
+      "auditorium_id": 3,
+      "row_label": "A",
+      "seat_number": 3
+    },
+    {
+      "id": 84,
+      "auditorium_id": 3,
+      "row_label": "A",
+      "seat_number": 4
+    },
+    {
+      "id": 85,
+      "auditorium_id": 3,
+      "row_label": "A",
+      "seat_number": 5
+    },
+    {
+      "id": 86,
+      "auditorium_id": 3,
+      "row_label": "A",
+      "seat_number": 6
+    },
+    {
+      "id": 87,
+      "auditorium_id": 3,
+      "row_label": "A",
+      "seat_number": 7
+    },
+    {
+      "id": 88,
+      "auditorium_id": 3,
+      "row_label": "A",
+      "seat_number": 8
+    },
+    {
+      "id": 89,
+      "auditorium_id": 3,
+      "row_label": "B",
+      "seat_number": 1
+    },
+    {
+      "id": 90,
+      "auditorium_id": 3,
+      "row_label": "B",
+      "seat_number": 2
+    },
+    {
+      "id": 91,
+      "auditorium_id": 3,
+      "row_label": "B",
+      "seat_number": 3
+    },
+    {
+      "id": 92,
+      "auditorium_id": 3,
+      "row_label": "B",
+      "seat_number": 4
+    },
+    {
+      "id": 93,
+      "auditorium_id": 3,
+      "row_label": "B",
+      "seat_number": 5
+    },
+    {
+      "id": 94,
+      "auditorium_id": 3,
+      "row_label": "B",
+      "seat_number": 6
+    },
+    {
+      "id": 95,
+      "auditorium_id": 3,
+      "row_label": "B",
+      "seat_number": 7
+    },
+    {
+      "id": 96,
+      "auditorium_id": 3,
+      "row_label": "B",
+      "seat_number": 8
+    },
+    {
+      "id": 97,
+      "auditorium_id": 3,
+      "row_label": "C",
+      "seat_number": 1
+    },
+    {
+      "id": 98,
+      "auditorium_id": 3,
+      "row_label": "C",
+      "seat_number": 2
+    },
+    {
+      "id": 99,
+      "auditorium_id": 3,
+      "row_label": "C",
+      "seat_number": 3
+    },
+    {
+      "id": 100,
+      "auditorium_id": 3,
+      "row_label": "C",
+      "seat_number": 4
+    },
+    {
+      "id": 101,
+      "auditorium_id": 3,
+      "row_label": "C",
+      "seat_number": 5
+    },
+    {
+      "id": 102,
+      "auditorium_id": 3,
+      "row_label": "C",
+      "seat_number": 6
+    },
+    {
+      "id": 103,
+      "auditorium_id": 3,
+      "row_label": "C",
+      "seat_number": 7
+    },
+    {
+      "id": 104,
+      "auditorium_id": 3,
+      "row_label": "C",
+      "seat_number": 8
+    },
+    {
+      "id": 105,
+      "auditorium_id": 3,
+      "row_label": "D",
+      "seat_number": 1
+    },
+    {
+      "id": 106,
+      "auditorium_id": 3,
+      "row_label": "D",
+      "seat_number": 2
+    },
+    {
+      "id": 107,
+      "auditorium_id": 3,
+      "row_label": "D",
+      "seat_number": 3
+    },
+    {
+      "id": 108,
+      "auditorium_id": 3,
+      "row_label": "D",
+      "seat_number": 4
+    },
+    {
+      "id": 109,
+      "auditorium_id": 3,
+      "row_label": "D",
+      "seat_number": 5
+    },
+    {
+      "id": 110,
+      "auditorium_id": 3,
+      "row_label": "D",
+      "seat_number": 6
+    },
+    {
+      "id": 111,
+      "auditorium_id": 3,
+      "row_label": "D",
+      "seat_number": 7
+    },
+    {
+      "id": 112,
+      "auditorium_id": 3,
+      "row_label": "D",
+      "seat_number": 8
+    },
+    {
+      "id": 113,
+      "auditorium_id": 3,
+      "row_label": "E",
+      "seat_number": 1
+    },
+    {
+      "id": 114,
+      "auditorium_id": 3,
+      "row_label": "E",
+      "seat_number": 2
+    },
+    {
+      "id": 115,
+      "auditorium_id": 3,
+      "row_label": "E",
+      "seat_number": 3
+    },
+    {
+      "id": 116,
+      "auditorium_id": 3,
+      "row_label": "E",
+      "seat_number": 4
+    },
+    {
+      "id": 117,
+      "auditorium_id": 3,
+      "row_label": "E",
+      "seat_number": 5
+    },
+    {
+      "id": 118,
+      "auditorium_id": 3,
+      "row_label": "E",
+      "seat_number": 6
+    },
+    {
+      "id": 119,
+      "auditorium_id": 3,
+      "row_label": "E",
+      "seat_number": 7
+    },
+    {
+      "id": 120,
+      "auditorium_id": 3,
+      "row_label": "E",
+      "seat_number": 8
+    }
+  ],
+  "showtimes": [
+    {
+      "id": 1,
+      "movie_id": 1,
+      "cinema_id": 1,
+      "auditorium_id": 1,
+      "start_time": "2026-03-12T15:00:00",
+      "end_time": "2026-03-12T17:15:00",
+      "base_price": 12.5
+    },
+    {
+      "id": 2,
+      "movie_id": 1,
+      "cinema_id": 1,
+      "auditorium_id": 1,
+      "start_time": "2026-03-12T20:00:00",
+      "end_time": "2026-03-12T22:15:00",
+      "base_price": 14.5
+    },
+    {
+      "id": 3,
+      "movie_id": 1,
+      "cinema_id": 2,
+      "auditorium_id": 3,
+      "start_time": "2026-03-13T18:30:00",
+      "end_time": "2026-03-13T20:45:00",
+      "base_price": 13
+    },
+    {
+      "id": 4,
+      "movie_id": 2,
+      "cinema_id": 1,
+      "auditorium_id": 2,
+      "start_time": "2026-03-12T16:00:00",
+      "end_time": "2026-03-12T17:45:00",
+      "base_price": 11
+    },
+    {
+      "id": 5,
+      "movie_id": 2,
+      "cinema_id": 2,
+      "auditorium_id": 3,
+      "start_time": "2026-03-13T19:00:00",
+      "end_time": "2026-03-13T20:45:00",
+      "base_price": 11
+    },
+    {
+      "id": 6,
+      "movie_id": 3,
+      "cinema_id": 1,
+      "auditorium_id": 2,
+      "start_time": "2026-03-14T14:00:00",
+      "end_time": "2026-03-14T16:00:00",
+      "base_price": 10.5
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "Demo Customer",
+      "email": "demo.customer@example.com",
+      "password": "password123",
+      "role": "customer"
+    },
+    {
+      "id": 2,
+      "name": "Second Customer",
+      "email": "second.customer@example.com",
+      "password": "password123",
+      "role": "customer"
+    },
+    {
+      "name": "nodaco",
+      "email": "cuong@gmail.com",
+      "password": "123123",
+      "role": "customer",
+      "id": 3
+    }
+  ],
+  "booking": [
+    {
+      "id": 1,
+      "user_id": 1,
+      "movie_id": 1,
+      "showtime_id": 1,
+      "cinema_id": 1,
+      "auditorium_id": 1,
+      "total_amount": 25,
+      "status": "completed",
+      "promotion_code": null,
+      "created_at": "2026-03-10T10:15:00"
+    },
+    {
+      "id": 2,
+      "user_id": 1,
+      "movie_id": 2,
+      "showtime_id": 4,
+      "cinema_id": 1,
+      "auditorium_id": 2,
+      "total_amount": 20.9,
+      "status": "completed",
+      "promotion_code": "WELCOME10",
+      "created_at": "2026-03-11T19:30:00"
+    },
+    {
+      "id": 3,
+      "user_id": 2,
+      "movie_id": 1,
+      "showtime_id": 2,
+      "cinema_id": 1,
+      "auditorium_id": 1,
+      "total_amount": 37.5,
+      "status": "completed",
+      "promotion_code": "GALAXY20",
+      "created_at": "2026-03-11T20:45:00"
+    },
+    {
+      "user_id": 3,
+      "movie_id": 1,
+      "showtime_id": 3,
+      "cinema_id": 2,
+      "auditorium_id": 3,
+      "total_amount": 104,
+      "status": "completed",
+      "promotion_code": null,
+      "created_at": "2026-03-12T04:29:32.103Z",
+      "id": 4
+    },
+    {
+      "user_id": 1,
+      "movie_id": 1,
+      "showtime_id": 1,
+      "cinema_id": 1,
+      "auditorium_id": 1,
+      "total_amount": 12.5,
+      "status": "completed",
+      "promotion_code": null,
+      "created_at": "2026-03-12T04:45:24.280Z",
+      "id": 5
+    },
+    {
+      "user_id": 1,
+      "movie_id": 1,
+      "showtime_id": 1,
+      "cinema_id": 1,
+      "auditorium_id": 1,
+      "total_amount": 12.5,
+      "status": "completed",
+      "promotion_code": null,
+      "created_at": "2026-03-12T04:56:09.640Z",
+      "id": 6
+    },
+    {
+      "user_id": 1,
+      "movie_id": 1,
+      "showtime_id": 1,
+      "cinema_id": 1,
+      "auditorium_id": 1,
+      "total_amount": 12.5,
+      "status": "payment_failed",
+      "promotion_code": null,
+      "created_at": "2026-03-12T04:58:03.463Z",
+      "id": 7
+    },
+    {
+      "user_id": 1,
+      "movie_id": 3,
+      "showtime_id": 6,
+      "cinema_id": 1,
+      "auditorium_id": 2,
+      "total_amount": 31.5,
+      "status": "payment_failed",
+      "promotion_code": null,
+      "created_at": "2026-03-12T04:59:37.851Z",
+      "id": 8
+    },
+    {
+      "user_id": 1,
+      "movie_id": 3,
+      "showtime_id": 6,
+      "cinema_id": 1,
+      "auditorium_id": 2,
+      "total_amount": 10.5,
+      "status": "payment_failed",
+      "promotion_code": null,
+      "created_at": "2026-03-12T05:05:25.048Z",
+      "id": 9
+    },
+    {
+      "user_id": 1,
+      "movie_id": 3,
+      "showtime_id": 6,
+      "cinema_id": 1,
+      "auditorium_id": 2,
+      "total_amount": 10.5,
+      "status": "completed",
+      "promotion_code": null,
+      "created_at": "2026-03-12T05:05:25.853Z",
+      "id": 10
+    }
+  ],
+  "tickets": [
+    {
+      "id": 1,
+      "booking_id": 1,
+      "user_id": 1,
+      "movie_id": 1,
+      "showtime_id": 1,
+      "cinema_id": 1,
+      "auditorium_id": 1,
+      "seat_id": 1,
+      "seat_label": "A1",
+      "price": 12.5
+    },
+    {
+      "id": 2,
+      "booking_id": 1,
+      "user_id": 1,
+      "movie_id": 1,
+      "showtime_id": 1,
+      "cinema_id": 1,
+      "auditorium_id": 1,
+      "seat_id": 2,
+      "seat_label": "A2",
+      "price": 12.5
+    },
+    {
+      "id": 3,
+      "booking_id": 2,
+      "user_id": 1,
+      "movie_id": 2,
+      "showtime_id": 4,
+      "cinema_id": 1,
+      "auditorium_id": 2,
+      "seat_id": 41,
+      "seat_label": "A1",
+      "price": 11
+    },
+    {
+      "id": 4,
+      "booking_id": 2,
+      "user_id": 1,
+      "movie_id": 2,
+      "showtime_id": 4,
+      "cinema_id": 1,
+      "auditorium_id": 2,
+      "seat_id": 42,
+      "seat_label": "A2",
+      "price": 9.9
+    },
+    {
+      "id": 5,
+      "booking_id": 3,
+      "user_id": 2,
+      "movie_id": 1,
+      "showtime_id": 2,
+      "cinema_id": 1,
+      "auditorium_id": 1,
+      "seat_id": 9,
+      "seat_label": "B1",
+      "price": 12.5
+    },
+    {
+      "id": 6,
+      "booking_id": 3,
+      "user_id": 2,
+      "movie_id": 1,
+      "showtime_id": 2,
+      "cinema_id": 1,
+      "auditorium_id": 1,
+      "seat_id": 10,
+      "seat_label": "B2",
+      "price": 12.5
+    },
+    {
+      "id": 7,
+      "booking_id": 3,
+      "user_id": 2,
+      "movie_id": 1,
+      "showtime_id": 2,
+      "cinema_id": 1,
+      "auditorium_id": 1,
+      "seat_id": 11,
+      "seat_label": "B3",
+      "price": 12.5
+    },
+    {
+      "booking_id": 4,
+      "user_id": 3,
+      "movie_id": 1,
+      "showtime_id": 3,
+      "cinema_id": 2,
+      "auditorium_id": 3,
+      "seat_id": "A1",
+      "price": 13,
+      "id": 8
+    },
+    {
+      "booking_id": 4,
+      "user_id": 3,
+      "movie_id": 1,
+      "showtime_id": 3,
+      "cinema_id": 2,
+      "auditorium_id": 3,
+      "seat_id": "A2",
+      "price": 13,
+      "id": 9
+    },
+    {
+      "booking_id": 5,
+      "user_id": 1,
+      "movie_id": 1,
+      "showtime_id": 1,
+      "cinema_id": 1,
+      "auditorium_id": 1,
+      "seat_id": 3,
+      "price": 12.5,
+      "id": 10
+    },
+    {
+      "booking_id": 6,
+      "user_id": 1,
+      "movie_id": 1,
+      "showtime_id": 1,
+      "cinema_id": 1,
+      "auditorium_id": 1,
+      "seat_id": 43,
+      "price": 12.5,
+      "id": 11
+    },
+    {
+      "booking_id": 7,
+      "user_id": 1,
+      "movie_id": 1,
+      "showtime_id": 1,
+      "cinema_id": 1,
+      "auditorium_id": 1,
+      "seat_id": 4,
+      "price": 12.5,
+      "id": 12
+    },
+    {
+      "booking_id": 8,
+      "user_id": 1,
+      "movie_id": 3,
+      "showtime_id": 6,
+      "cinema_id": 1,
+      "auditorium_id": 2,
+      "seat_id": 4,
+      "price": 10.5,
+      "id": 13
+    },
+    {
+      "booking_id": 8,
+      "user_id": 1,
+      "movie_id": 3,
+      "showtime_id": 6,
+      "cinema_id": 1,
+      "auditorium_id": 2,
+      "seat_id": 31,
+      "price": 10.5,
+      "id": 14
+    },
+    {
+      "booking_id": 8,
+      "user_id": 1,
+      "movie_id": 3,
+      "showtime_id": 6,
+      "cinema_id": 1,
+      "auditorium_id": 2,
+      "seat_id": 80,
+      "price": 10.5,
+      "id": 15
+    },
+    {
+      "booking_id": 10,
+      "user_id": 1,
+      "movie_id": 3,
+      "showtime_id": 6,
+      "cinema_id": 1,
+      "auditorium_id": 2,
+      "seat_id": 65,
+      "price": 10.5,
+      "id": 16
+    }
+  ],
+  "promotion": [
+    {
+      "id": 1,
+      "code": "WELCOME10",
+      "description": "10% off for first-time customers",
+      "discount_type": "percentage",
+      "discount_value": 10,
+      "valid_from": "2026-03-01",
+      "valid_to": "2026-04-30",
+      "is_active": true,
+      "min_amount": 15
+    },
+    {
+      "id": 2,
+      "code": "GALAXY20",
+      "description": "20% off Galactic Odyssey evening shows",
+      "discount_type": "percentage",
+      "discount_value": 20,
+      "valid_from": "2026-03-10",
+      "valid_to": "2026-03-31",
+      "is_active": true,
+      "min_amount": 20
+    },
+    {
+      "id": 3,
+      "code": "TUESDAY5",
+      "description": "$5 off Tuesday matinees",
+      "discount_type": "fixed",
+      "discount_value": 5,
+      "valid_from": "2026-03-01",
+      "valid_to": "2026-06-30",
+      "is_active": true,
+      "min_amount": 10
+    }
+  ],
+  "payment_transactions": [
+    {
+      "id": 1,
+      "booking_id": 1,
+      "user_id": 1,
+      "amount": 25,
+      "status": "success",
+      "method": "fake_card",
+      "transaction_time": "2026-03-10T10:16:00",
+      "reference": "PAY-1-SUCCESS"
+    },
+    {
+      "id": 2,
+      "booking_id": 2,
+      "user_id": 1,
+      "amount": 20.9,
+      "status": "success",
+      "method": "fake_card",
+      "transaction_time": "2026-03-11T19:31:00",
+      "reference": "PAY-2-SUCCESS"
+    },
+    {
+      "id": 3,
+      "booking_id": 3,
+      "user_id": 2,
+      "amount": 37.5,
+      "status": "success",
+      "method": "fake_card",
+      "transaction_time": "2026-03-11T20:46:00",
+      "reference": "PAY-3-SUCCESS"
+    },
+    {
+      "id": 4,
+      "booking_id": null,
+      "user_id": 1,
+      "amount": 18,
+      "status": "failed",
+      "method": "fake_card",
+      "transaction_time": "2026-03-09T18:05:00",
+      "reference": "PAY-4-FAILED"
+    },
+    {
+      "booking_id": 5,
+      "user_id": 1,
+      "amount": 12.5,
+      "status": "success",
+      "method": "fake_card",
+      "transaction_time": "2026-03-12T04:45:24.342Z",
+      "reference": "FAKE-5-OK",
+      "id": 5
+    },
+    {
+      "booking_id": 6,
+      "user_id": 1,
+      "amount": 12.5,
+      "status": "success",
+      "method": "fake_card",
+      "transaction_time": "2026-03-12T04:56:09.706Z",
+      "reference": "FAKE-6-OK",
+      "id": 6
+    },
+    {
+      "booking_id": 7,
+      "user_id": 1,
+      "amount": 12.5,
+      "status": "failed",
+      "method": "fake_card",
+      "transaction_time": "2026-03-12T04:58:03.525Z",
+      "reference": "FAKE-7-FAIL",
+      "id": 7
+    },
+    {
+      "booking_id": 8,
+      "user_id": 1,
+      "amount": 31.5,
+      "status": "failed",
+      "method": "fake_card",
+      "transaction_time": "2026-03-12T04:59:37.933Z",
+      "reference": "FAKE-8-FAIL",
+      "id": 8
+    },
+    {
+      "booking_id": 9,
+      "user_id": 1,
+      "amount": 10.5,
+      "status": "failed",
+      "method": "fake_card",
+      "transaction_time": "2026-03-12T05:05:25.092Z",
+      "reference": "FAKE-9-FAIL",
+      "id": 9
+    },
+    {
+      "booking_id": 10,
+      "user_id": 1,
+      "amount": 10.5,
+      "status": "success",
+      "method": "fake_card",
+      "transaction_time": "2026-03-12T05:05:25.916Z",
+      "reference": "FAKE-10-OK",
+      "id": 10
+    }
+  ]
+}
