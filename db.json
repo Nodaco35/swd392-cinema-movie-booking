@@ -1073,6 +1073,83 @@
       "seat_id": 40,
       "price": 12.5,
       "id": 11
+    },
+    {
+      "booking_id": 7,
+      "user_id": 1,
+      "movie_id": 1,
+      "showtime_id": 1,
+      "cinema_id": 1,
+      "auditorium_id": 1,
+      "seat_id": 4,
+      "price": 12.5,
+      "id": 12
+    },
+    {
+      "booking_id": 8,
+      "user_id": 1,
+      "movie_id": 3,
+      "showtime_id": 6,
+      "cinema_id": 1,
+      "auditorium_id": 2,
+      "seat_id": 4,
+      "price": 10.5,
+      "id": 13
+    },
+    {
+      "booking_id": 8,
+      "user_id": 1,
+      "movie_id": 3,
+      "showtime_id": 6,
+      "cinema_id": 1,
+      "auditorium_id": 2,
+      "seat_id": 31,
+      "price": 10.5,
+      "id": 14
+    },
+    {
+      "booking_id": 8,
+      "user_id": 1,
+      "movie_id": 3,
+      "showtime_id": 6,
+      "cinema_id": 1,
+      "auditorium_id": 2,
+      "seat_id": 80,
+      "price": 10.5,
+      "id": 15
+    },
+    {
+      "booking_id": 10,
+      "user_id": 1,
+      "movie_id": 3,
+      "showtime_id": 6,
+      "cinema_id": 1,
+      "auditorium_id": 2,
+      "seat_id": 65,
+      "price": 10.5,
+      "id": 16
+    },
+    {
+      "booking_id": 11,
+      "user_id": 1,
+      "movie_id": 1,
+      "showtime_id": 1,
+      "cinema_id": 1,
+      "auditorium_id": 1,
+      "seat_id": 5,
+      "price": 12.5,
+      "id": 17
+    },
+    {
+      "booking_id": 11,
+      "user_id": 1,
+      "movie_id": 1,
+      "showtime_id": 1,
+      "cinema_id": 1,
+      "auditorium_id": 1,
+      "seat_id": 12,
+      "price": 12.5,
+      "id": 18
     }
   ],
   "promotion": [
@@ -1170,6 +1247,66 @@
       "transaction_time": "2026-03-14T13:50:12.489Z",
       "reference": "FAKE-6-OK",
       "id": 6
+    },
+    {
+      "booking_id": 7,
+      "user_id": 1,
+      "amount": 12.5,
+      "status": "failed",
+      "method": "fake_card",
+      "transaction_time": "2026-03-12T04:58:03.525Z",
+      "reference": "FAKE-7-FAIL",
+      "id": 7
+    },
+    {
+      "booking_id": 8,
+      "user_id": 1,
+      "amount": 31.5,
+      "status": "failed",
+      "method": "fake_card",
+      "transaction_time": "2026-03-12T04:59:37.933Z",
+      "reference": "FAKE-8-FAIL",
+      "id": 8
+    },
+    {
+      "booking_id": 9,
+      "user_id": 1,
+      "amount": 10.5,
+      "status": "failed",
+      "method": "fake_card",
+      "transaction_time": "2026-03-12T05:05:25.092Z",
+      "reference": "FAKE-9-FAIL",
+      "id": 9
+    },
+    {
+      "booking_id": 10,
+      "user_id": 1,
+      "amount": 10.5,
+      "status": "success",
+      "method": "fake_card",
+      "transaction_time": "2026-03-12T05:05:25.916Z",
+      "reference": "FAKE-10-OK",
+      "id": 10
+    },
+    {
+      "booking_id": 11,
+      "user_id": 1,
+      "amount": 25,
+      "status": "success",
+      "method": "fake_card",
+      "transaction_time": "2026-03-14T03:13:39.063Z",
+      "reference": "FAKE-11-OK",
+      "id": 11
+    },
+    {
+      "booking_id": 12,
+      "user_id": 1,
+      "amount": 42,
+      "status": "failed",
+      "method": "fake_wallet",
+      "transaction_time": "2026-03-14T03:14:31.584Z",
+      "reference": "FAKE-12-FAIL",
+      "id": 12
     }
   ]
 }
