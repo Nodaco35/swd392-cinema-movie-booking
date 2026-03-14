@@ -19,7 +19,7 @@ export function Footer() {
         }}
       >
         <span>© {new Date().getFullYear()} Cinema Booking </span>
-        <span style={{ fontSize: 12 }}>Group II - SE1919-NJ</span>
+        <span style={{ fontSize: 12 }}>Group V - SE1919-NJ</span>
       </div>
     </footer>
   );
