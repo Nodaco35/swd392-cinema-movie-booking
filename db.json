@@ -929,7 +929,7 @@
       "total_amount": 12.5,
       "status": "completed",
       "promotion_code": null,
-      "created_at": "2026-03-12T04:45:24.280Z",
+      "created_at": "2026-03-14T13:09:59.317Z",
       "id": 5
     },
     {
@@ -941,56 +941,8 @@
       "total_amount": 12.5,
       "status": "completed",
       "promotion_code": null,
-      "created_at": "2026-03-12T04:56:09.640Z",
+      "created_at": "2026-03-14T13:50:12.414Z",
       "id": 6
-    },
-    {
-      "user_id": 1,
-      "movie_id": 1,
-      "showtime_id": 1,
-      "cinema_id": 1,
-      "auditorium_id": 1,
-      "total_amount": 12.5,
-      "status": "payment_failed",
-      "promotion_code": null,
-      "created_at": "2026-03-12T04:58:03.463Z",
-      "id": 7
-    },
-    {
-      "user_id": 1,
-      "movie_id": 3,
-      "showtime_id": 6,
-      "cinema_id": 1,
-      "auditorium_id": 2,
-      "total_amount": 31.5,
-      "status": "payment_failed",
-      "promotion_code": null,
-      "created_at": "2026-03-12T04:59:37.851Z",
-      "id": 8
-    },
-    {
-      "user_id": 1,
-      "movie_id": 3,
-      "showtime_id": 6,
-      "cinema_id": 1,
-      "auditorium_id": 2,
-      "total_amount": 10.5,
-      "status": "payment_failed",
-      "promotion_code": null,
-      "created_at": "2026-03-12T05:05:25.048Z",
-      "id": 9
-    },
-    {
-      "user_id": 1,
-      "movie_id": 3,
-      "showtime_id": 6,
-      "cinema_id": 1,
-      "auditorium_id": 2,
-      "total_amount": 10.5,
-      "status": "completed",
-      "promotion_code": null,
-      "created_at": "2026-03-12T05:05:25.853Z",
-      "id": 10
     }
   ],
   "tickets": [
@@ -1118,64 +1070,9 @@
       "showtime_id": 1,
       "cinema_id": 1,
       "auditorium_id": 1,
-      "seat_id": 43,
+      "seat_id": 40,
       "price": 12.5,
       "id": 11
-    },
-    {
-      "booking_id": 7,
-      "user_id": 1,
-      "movie_id": 1,
-      "showtime_id": 1,
-      "cinema_id": 1,
-      "auditorium_id": 1,
-      "seat_id": 4,
-      "price": 12.5,
-      "id": 12
-    },
-    {
-      "booking_id": 8,
-      "user_id": 1,
-      "movie_id": 3,
-      "showtime_id": 6,
-      "cinema_id": 1,
-      "auditorium_id": 2,
-      "seat_id": 4,
-      "price": 10.5,
-      "id": 13
-    },
-    {
-      "booking_id": 8,
-      "user_id": 1,
-      "movie_id": 3,
-      "showtime_id": 6,
-      "cinema_id": 1,
-      "auditorium_id": 2,
-      "seat_id": 31,
-      "price": 10.5,
-      "id": 14
-    },
-    {
-      "booking_id": 8,
-      "user_id": 1,
-      "movie_id": 3,
-      "showtime_id": 6,
-      "cinema_id": 1,
-      "auditorium_id": 2,
-      "seat_id": 80,
-      "price": 10.5,
-      "id": 15
-    },
-    {
-      "booking_id": 10,
-      "user_id": 1,
-      "movie_id": 3,
-      "showtime_id": 6,
-      "cinema_id": 1,
-      "auditorium_id": 2,
-      "seat_id": 65,
-      "price": 10.5,
-      "id": 16
     }
   ],
   "promotion": [
@@ -1260,7 +1157,7 @@
       "amount": 12.5,
       "status": "success",
       "method": "fake_card",
-      "transaction_time": "2026-03-12T04:45:24.342Z",
+      "transaction_time": "2026-03-14T13:09:59.382Z",
       "reference": "FAKE-5-OK",
       "id": 5
     },
@@ -1270,49 +1167,9 @@
       "amount": 12.5,
       "status": "success",
       "method": "fake_card",
-      "transaction_time": "2026-03-12T04:56:09.706Z",
+      "transaction_time": "2026-03-14T13:50:12.489Z",
       "reference": "FAKE-6-OK",
       "id": 6
-    },
-    {
-      "booking_id": 7,
-      "user_id": 1,
-      "amount": 12.5,
-      "status": "failed",
-      "method": "fake_card",
-      "transaction_time": "2026-03-12T04:58:03.525Z",
-      "reference": "FAKE-7-FAIL",
-      "id": 7
-    },
-    {
-      "booking_id": 8,
-      "user_id": 1,
-      "amount": 31.5,
-      "status": "failed",
-      "method": "fake_card",
-      "transaction_time": "2026-03-12T04:59:37.933Z",
-      "reference": "FAKE-8-FAIL",
-      "id": 8
-    },
-    {
-      "booking_id": 9,
-      "user_id": 1,
-      "amount": 10.5,
-      "status": "failed",
-      "method": "fake_card",
-      "transaction_time": "2026-03-12T05:05:25.092Z",
-      "reference": "FAKE-9-FAIL",
-      "id": 9
-    },
-    {
-      "booking_id": 10,
-      "user_id": 1,
-      "amount": 10.5,
-      "status": "success",
-      "method": "fake_card",
-      "transaction_time": "2026-03-12T05:05:25.916Z",
-      "reference": "FAKE-10-OK",
-      "id": 10
     }
   ]
 }

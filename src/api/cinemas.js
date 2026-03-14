@@ -10,6 +10,13 @@ export async function fetchCinemaById(cinemaId) {
   return response.data
 }
 
+export async function fetchCinemasByIds(cinemaIds) {
+  const ids = Array.from(new Set(cinemaIds.filter(Boolean)))
+  if (!ids.length) return []
+  const response = await apiClient.get('/cinemas', { params: { id: ids } })
+  return response.data
+}
+
 // Given showtimes for a movie/date, derive unique cinemas in one call
 export async function fetchCinemasForMovieAndDate({ movieId, date }) {
   const showtimesResponse = await apiClient.get('/showtimes', {

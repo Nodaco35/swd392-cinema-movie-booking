@@ -1,19 +1,18 @@
-import axios from 'axios'
+import axios from "axios";
 
-const baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3001'
+const baseURL = import.meta.env.VITE_API_URL || "http://localhost:3001";
 
 export const apiClient = axios.create({
   baseURL,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
-})
+});
 
 export function setAuthToken(token) {
   if (!token) {
-    delete apiClient.defaults.headers.common.Authorization
-    return
+    delete apiClient.defaults.headers.common.Authorization;
+    return;
   }
-  apiClient.defaults.headers.common.Authorization = `Bearer ${token}`
+  apiClient.defaults.headers.common.Authorization = `Bearer ${token}`;
 }
-

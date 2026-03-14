@@ -34,7 +34,7 @@ export default function HomePage() {
 
   return (
     <PageShell
-      title="Movie List"
+      title="Home / Movie List"
       hint="Browse movies currently available to book."
     >
       {loading && (

@@ -1,12 +1,11 @@
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { PageShell } from "../components/PageShell";
-import { useBooking } from "../context/BookingContext";
-import { useAuth } from "../context/AuthContext";
-import { findPromotionByCode } from "../api/promotion";
+import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { PageShell } from '../components/PageShell'
+import { useBooking } from '../context/BookingContext'
+import { findPromotionByCode } from '../api/promotion'
 
 export default function CheckoutPage() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const {
     movie,
     date,
@@ -18,36 +17,35 @@ export default function CheckoutPage() {
     subtotal,
     discount,
     total,
-  } = useBooking();
-  const { isAuthenticated } = useAuth();
-  const [promoInput, setPromoInput] = useState("");
-  const [promoStatus, setPromoStatus] = useState("");
-  const [applyingPromo, setApplyingPromo] = useState(false);
-  const [paymentMethod, setPaymentMethod] = useState("fake_card");
+  } = useBooking()
+  const [promoInput, setPromoInput] = useState('')
+  const [promoStatus, setPromoStatus] = useState('')
+  const [applyingPromo, setApplyingPromo] = useState(false)
+  const [paymentMethod, setPaymentMethod] = useState('fake_card')
 
   const handleApplyPromotion = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
     if (!promoInput.trim()) {
-      setPromoStatus("Please enter a code first.");
-      return;
+      setPromoStatus('Please enter a code first.')
+      return
     }
-    setApplyingPromo(true);
-    setPromoStatus("");
+    setApplyingPromo(true)
+    setPromoStatus('')
     try {
-      const promo = await findPromotionByCode(promoInput.trim());
+      const promo = await findPromotionByCode(promoInput.trim())
       if (!promo) {
-        setPromoStatus("That promotion code is not valid or is inactive.");
-        setPromotion(null);
-        return;
+        setPromoStatus('That promotion code is not valid or is inactive.')
+        setPromotion(null)
+        return
       }
-      setPromotion(promo);
-      setPromoStatus(`Promotion "${promo.code}" applied.`);
+      setPromotion(promo)
+      setPromoStatus(`Promotion "${promo.code}" applied.`)
     } catch (err) {
-      setPromoStatus("Unable to validate this promotion right now.");
+      setPromoStatus('Unable to validate this promotion right now.')
     } finally {
-      setApplyingPromo(false);
+      setApplyingPromo(false)
     }
-  };
+  }
 
   return (
     <PageShell
@@ -55,32 +53,24 @@ export default function CheckoutPage() {
       hint="Review your booking, apply a promotion, and choose a payment method."
     >
       {!movie || !showtime || !cinema || !selectedSeatIds.length ? (
-        <div style={{ color: "#ffb3b3", fontSize: 14 }}>
-          Your booking is not complete yet. Please choose a movie, showtime, and
-          seats first.
+        <div style={{ color: '#ffb3b3', fontSize: 14 }}>
+          Your booking is not complete yet. Please choose a movie, showtime, and seats first.
         </div>
       ) : (
         <>
           {/* Summary */}
-          <section className="card" style={{ marginBottom: "0.9rem" }}>
+          <section className="card" style={{ marginBottom: '0.9rem' }}>
             <h2
               style={{
                 margin: 0,
-                marginBottom: "0.4rem",
+                marginBottom: '0.4rem',
                 fontSize: 16,
-                letterSpacing: "-0.01em",
+                letterSpacing: '-0.01em',
               }}
             >
               Booking summary
             </h2>
-            <div
-              style={{
-                fontSize: 13,
-                color: "var(--muted)",
-                display: "grid",
-                gap: 4,
-              }}
-            >
+            <div style={{ fontSize: 13, color: 'var(--muted)', display: 'grid', gap: 4 }}>
               <span>
                 Movie: <b>{movie.title}</b>
               </span>
@@ -91,44 +81,34 @@ export default function CheckoutPage() {
                 Cinema: <b>{cinema.name}</b>
               </span>
               <span>
-                Showtime:{" "}
-                <b>
-                  {new Date(showtime.start_time).toLocaleTimeString([], {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </b>
+                Showtime:{' '}
+                <b>{new Date(showtime.start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</b>
               </span>
               <span>
-                Seats:{" "}
+                Seats:{' '}
                 <b>
                   {selectedSeatIds.length} seat
-                  {selectedSeatIds.length !== 1 ? "s" : ""}
+                  {selectedSeatIds.length !== 1 ? 's' : ''}
                 </b>
               </span>
             </div>
           </section>
 
           {/* Promotion */}
-          <section className="card" style={{ marginBottom: "0.9rem" }}>
+          <section className="card" style={{ marginBottom: '0.9rem' }}>
             <h3
               style={{
                 margin: 0,
-                marginBottom: "0.4rem",
+                marginBottom: '0.4rem',
                 fontSize: 14,
-                letterSpacing: "-0.01em",
+                letterSpacing: '-0.01em',
               }}
             >
               Promotion code
             </h3>
             <form
               onSubmit={handleApplyPromotion}
-              style={{
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "0.5rem",
-                alignItems: "center",
-              }}
+              style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', alignItems: 'center' }}
             >
               <input
                 type="text"
@@ -137,45 +117,33 @@ export default function CheckoutPage() {
                 onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
                 style={{
                   minWidth: 140,
-                  flex: "1 1 140px",
+                  flex: '1 1 140px',
                   borderRadius: 10,
-                  border: "1px solid var(--border)",
-                  padding: "0.45rem 0.6rem",
-                  background: "rgba(3,8,23,0.9)",
-                  color: "var(--text)",
+                  border: '1px solid var(--border)',
+                  padding: '0.45rem 0.6rem',
+                  background: 'rgba(3,8,23,0.9)',
+                  color: 'var(--text)',
                   fontSize: 13,
                 }}
               />
               <button className="btn" type="submit" disabled={applyingPromo}>
-                {applyingPromo ? "Applying..." : "Apply"}
+                {applyingPromo ? 'Applying...' : 'Apply'}
               </button>
             </form>
             {promoStatus && (
               <div
                 style={{
-                  marginTop: "0.4rem",
+                  marginTop: '0.4rem',
                   fontSize: 12,
-                  color: promoStatus.includes("applied")
-                    ? "var(--muted)"
-                    : "#ffb3b3",
+                  color: promoStatus.includes('applied') ? 'var(--muted)' : '#ffb3b3',
                 }}
               >
                 {promoStatus}
               </div>
             )}
-            <div
-              style={{
-                marginTop: "0.4rem",
-                fontSize: 12,
-                color: "var(--muted)",
-              }}
-            >
-              Current promotion:{" "}
-              <b>
-                {promotion
-                  ? `${promotion.code} (${promotion.discount_type})`
-                  : "none"}
-              </b>
+            <div style={{ marginTop: '0.4rem', fontSize: 12, color: 'var(--muted)' }}>
+              Current promotion:{' '}
+              <b>{promotion ? `${promotion.code} (${promotion.discount_type})` : 'none'}</b>
             </div>
           </section>
 
@@ -184,9 +152,9 @@ export default function CheckoutPage() {
             <h3
               style={{
                 margin: 0,
-                marginBottom: "0.4rem",
+                marginBottom: '0.4rem',
                 fontSize: 14,
-                letterSpacing: "-0.01em",
+                letterSpacing: '-0.01em',
               }}
             >
               Payment
@@ -194,11 +162,11 @@ export default function CheckoutPage() {
 
             <div
               style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "0.35rem",
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '0.35rem',
                 fontSize: 13,
-                marginBottom: "0.6rem",
+                marginBottom: '0.6rem',
               }}
             >
               <div>
@@ -212,18 +180,18 @@ export default function CheckoutPage() {
               </div>
             </div>
 
-            <div style={{ marginBottom: "0.6rem", fontSize: 13 }}>
+            <div style={{ marginBottom: '0.6rem', fontSize: 13 }}>
               <div style={{ marginBottom: 4 }}>Payment method</div>
-              <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                 <button
                   type="button"
                   className="btn"
-                  onClick={() => setPaymentMethod("fake_card")}
+                  onClick={() => setPaymentMethod('fake_card')}
                   style={
-                    paymentMethod === "fake_card"
+                    paymentMethod === 'fake_card'
                       ? {
-                          borderColor: "rgba(234,240,255,0.6)",
-                          background: "rgba(255,255,255,0.04)",
+                          borderColor: 'rgba(234,240,255,0.6)',
+                          background: 'rgba(255,255,255,0.04)',
                         }
                       : undefined
                   }
@@ -233,12 +201,12 @@ export default function CheckoutPage() {
                 <button
                   type="button"
                   className="btn"
-                  onClick={() => setPaymentMethod("fake_wallet")}
+                  onClick={() => setPaymentMethod('fake_wallet')}
                   style={
-                    paymentMethod === "fake_wallet"
+                    paymentMethod === 'fake_wallet'
                       ? {
-                          borderColor: "rgba(234,240,255,0.6)",
-                          background: "rgba(255,255,255,0.04)",
+                          borderColor: 'rgba(234,240,255,0.6)',
+                          background: 'rgba(255,255,255,0.04)',
                         }
                       : undefined
                   }
@@ -250,11 +218,11 @@ export default function CheckoutPage() {
 
             <div
               style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                gap: "0.5rem",
-                flexWrap: "wrap",
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                gap: '0.5rem',
+                flexWrap: 'wrap',
               }}
             >
               <Link className="btn" to="/seats/select">
@@ -263,13 +231,7 @@ export default function CheckoutPage() {
               <button
                 className="btn"
                 type="button"
-                onClick={() => {
-                  if (!isAuthenticated) {
-                    navigate("/auth/login");
-                  } else {
-                    navigate("/payment", { state: { paymentMethod } });
-                  }
-                }}
+                onClick={() => navigate('/payment', { state: { paymentMethod } })}
               >
                 Proceed to Fake Payment
               </button>
@@ -278,5 +240,6 @@ export default function CheckoutPage() {
         </>
       )}
     </PageShell>
-  );
+  )
 }
+

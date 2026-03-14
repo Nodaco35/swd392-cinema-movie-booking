@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 const linkStyle = ({ isActive }) => ({
@@ -10,7 +10,13 @@ const linkStyle = ({ isActive }) => ({
 });
 
 export function Header() {
+  const navigate = useNavigate();
   const { user, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
   return (
     <header style={{ borderBottom: "1px solid rgba(234,240,255,0.12)" }}>
@@ -35,10 +41,8 @@ export function Header() {
                 "linear-gradient(135deg, rgba(106,163,255,0.9), rgba(124,92,255,0.9))",
             }}
           />
-          <div>
-            <div style={{ fontWeight: 800, letterSpacing: "-0.02em" }}>
-              Cinema Booking
-            </div>
+          <div style={{ fontWeight: 800, letterSpacing: "-0.02em" }}>
+            Cinema Booking
           </div>
         </div>
 
@@ -53,32 +57,23 @@ export function Header() {
           <NavLink to="/" style={linkStyle} end>
             Home
           </NavLink>
-          {user && (
-            <NavLink to="/booking/history" style={linkStyle}>
-              History
-            </NavLink>
-          )}
           {user ? (
             <>
               <span
-                style={{ ...linkStyle({ isActive: false }), cursor: "default" }}
-              >
-                {user.name}
-              </span>
-              <button
-                onClick={logout}
                 style={{
-                  ...linkStyle({ isActive: false }),
-                  background: "transparent",
-                  border: "none",
-                  cursor: "pointer",
                   padding: "0.4rem 0.65rem",
-                  fontSize: 15,
-                  color: "rgba(234,240,255,0.72)",
+                  borderRadius: 10,
+                  color: "rgba(234,240,255,0.9)",
                 }}
               >
-                Logout
+                {user.name || user.email}
+              </span>
+              <button className="btn" type="button" onClick={handleLogout}>
+                Log Out
               </button>
+              <NavLink to="/booking/history" style={linkStyle}>
+                History
+              </NavLink>
             </>
           ) : (
             <>

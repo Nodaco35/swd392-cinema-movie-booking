@@ -18,7 +18,7 @@ export function Footer() {
           flexWrap: "wrap",
         }}
       >
-        <span>© {new Date().getFullYear()} Cinema Booking </span>
+        <span>© {new Date().getFullYear()} Cinema Booking</span>
         <span style={{ fontSize: 12 }}>Group II - SE1919-NJ</span>
       </div>
     </footer>
