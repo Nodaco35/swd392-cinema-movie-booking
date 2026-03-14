@@ -991,6 +991,30 @@
       "promotion_code": null,
       "created_at": "2026-03-12T05:05:25.853Z",
       "id": 10
+    },
+    {
+      "user_id": 1,
+      "movie_id": 1,
+      "showtime_id": 1,
+      "cinema_id": 1,
+      "auditorium_id": 1,
+      "total_amount": 25,
+      "status": "completed",
+      "promotion_code": null,
+      "created_at": "2026-03-14T03:13:38.321Z",
+      "id": 11
+    },
+    {
+      "user_id": 1,
+      "movie_id": 3,
+      "showtime_id": 6,
+      "cinema_id": 1,
+      "auditorium_id": 2,
+      "total_amount": 42,
+      "status": "payment_failed",
+      "promotion_code": null,
+      "created_at": "2026-03-14T03:14:31.569Z",
+      "id": 12
     }
   ],
   "tickets": [
@@ -1176,6 +1200,28 @@
       "seat_id": 65,
       "price": 10.5,
       "id": 16
+    },
+    {
+      "booking_id": 11,
+      "user_id": 1,
+      "movie_id": 1,
+      "showtime_id": 1,
+      "cinema_id": 1,
+      "auditorium_id": 1,
+      "seat_id": 5,
+      "price": 12.5,
+      "id": 17
+    },
+    {
+      "booking_id": 11,
+      "user_id": 1,
+      "movie_id": 1,
+      "showtime_id": 1,
+      "cinema_id": 1,
+      "auditorium_id": 1,
+      "seat_id": 12,
+      "price": 12.5,
+      "id": 18
     }
   ],
   "promotion": [
@@ -1313,6 +1359,26 @@
       "transaction_time": "2026-03-12T05:05:25.916Z",
       "reference": "FAKE-10-OK",
       "id": 10
+    },
+    {
+      "booking_id": 11,
+      "user_id": 1,
+      "amount": 25,
+      "status": "success",
+      "method": "fake_card",
+      "transaction_time": "2026-03-14T03:13:39.063Z",
+      "reference": "FAKE-11-OK",
+      "id": 11
+    },
+    {
+      "booking_id": 12,
+      "user_id": 1,
+      "amount": 42,
+      "status": "failed",
+      "method": "fake_wallet",
+      "transaction_time": "2026-03-14T03:14:31.584Z",
+      "reference": "FAKE-12-FAIL",
+      "id": 12
     }
   ]
 }
