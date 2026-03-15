@@ -56,10 +56,9 @@ export function BookingProvider({ children }) {
     let discount = 0;
     const promo = draft.promotion;
     if (promo && subtotal > 0) {
-      if (promo.discount_type === "percentage") {
-        discount = (subtotal * promo.discount_value) / 100;
-      } else if (promo.discount_type === "fixed") {
-        discount = promo.discount_value;
+      const percent = Number(promo.discount_percent || 0);
+      if (!Number.isNaN(percent) && percent > 0) {
+        discount = (subtotal * percent) / 100;
       }
       if (discount > subtotal) discount = subtotal;
     }

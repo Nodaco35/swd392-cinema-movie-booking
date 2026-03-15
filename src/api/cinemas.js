@@ -13,7 +13,7 @@ export async function fetchCinemaById(cinemaId) {
 export async function fetchCinemasByIds(cinemaIds) {
   const ids = Array.from(new Set(cinemaIds.filter(Boolean)));
   if (!ids.length) return [];
-  const response = await apiClient.get("/cinemas", { params: { id: ids } });
+  const response = await apiClient.get("/cinemas", { params: { cinema_id: ids } });
   return response.data;
 }
 

@@ -79,7 +79,7 @@ export default function ShowtimeSelectionPage() {
           date,
         });
         const filtered = data.filter(
-          (s) => s.auditorium.cinema_id === cinema.cinema_id,
+          (s) => Number(s.Auditorium.cinema_id) === Number(cinema.cinema_id),
         );
         setShowtimes(filtered);
       } catch (err) {

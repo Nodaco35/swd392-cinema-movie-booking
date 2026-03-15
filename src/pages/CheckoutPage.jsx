@@ -21,7 +21,7 @@ export default function CheckoutPage() {
   const [promoInput, setPromoInput] = useState('')
   const [promoStatus, setPromoStatus] = useState('')
   const [applyingPromo, setApplyingPromo] = useState(false)
-  const [paymentMethod, setPaymentMethod] = useState('fake_card')
+  const [paymentMethod, setPaymentMethod] = useState('card')
 
   const handleApplyPromotion = async (event) => {
     event.preventDefault()
@@ -143,7 +143,11 @@ export default function CheckoutPage() {
             )}
             <div style={{ marginTop: '0.4rem', fontSize: 12, color: 'var(--muted)' }}>
               Current promotion:{' '}
-              <b>{promotion ? `${promotion.code} (${promotion.discount_type})` : 'none'}</b>
+              <b>
+                {promotion
+                  ? `${promotion.code} (${Number(promotion.discount_percent || 0)}%)`
+                  : 'none'}
+              </b>
             </div>
           </section>
 
@@ -186,9 +190,9 @@ export default function CheckoutPage() {
                 <button
                   type="button"
                   className="btn"
-                  onClick={() => setPaymentMethod('fake_card')}
+                  onClick={() => setPaymentMethod('card')}
                   style={
-                    paymentMethod === 'fake_card'
+                    paymentMethod === 'card'
                       ? {
                           borderColor: 'rgba(234,240,255,0.6)',
                           background: 'rgba(255,255,255,0.04)',
@@ -196,14 +200,14 @@ export default function CheckoutPage() {
                       : undefined
                   }
                 >
-                  Fake card
+                  Card
                 </button>
                 <button
                   type="button"
                   className="btn"
-                  onClick={() => setPaymentMethod('fake_wallet')}
+                  onClick={() => setPaymentMethod('momo')}
                   style={
-                    paymentMethod === 'fake_wallet'
+                    paymentMethod === 'momo'
                       ? {
                           borderColor: 'rgba(234,240,255,0.6)',
                           background: 'rgba(255,255,255,0.04)',
@@ -211,7 +215,22 @@ export default function CheckoutPage() {
                       : undefined
                   }
                 >
-                  Fake wallet
+                  Momo
+                </button>
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => setPaymentMethod('cash')}
+                  style={
+                    paymentMethod === 'cash'
+                      ? {
+                          borderColor: 'rgba(234,240,255,0.6)',
+                          background: 'rgba(255,255,255,0.04)',
+                        }
+                      : undefined
+                  }
+                >
+                  Cash
                 </button>
               </div>
             </div>
@@ -242,4 +261,3 @@ export default function CheckoutPage() {
     </PageShell>
   )
 }
-

@@ -2,7 +2,7 @@ import { apiClient } from './client'
 
 export async function fetchSeatsByAuditorium(auditoriumId) {
   const response = await apiClient.get('/seats', {
-    params: { auditorium_id: auditoriumId, _sort: 'row_label,seat_number' },
+    params: { auditorium_id: auditoriumId, _sort: 'row_name,seat_number' },
   })
   return response.data
 }

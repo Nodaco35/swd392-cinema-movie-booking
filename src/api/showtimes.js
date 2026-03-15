@@ -23,7 +23,7 @@ export async function fetchShowtimeById(showtimeId) {
 export async function fetchShowtimesByIds(showtimeIds) {
   const ids = Array.from(new Set(showtimeIds.filter(Boolean)))
   if (!ids.length) return []
-  const response = await apiClient.get('/showtimes', { params: { id: ids } })
+  const response = await apiClient.get('/showtimes', { params: { showtime_id: ids } })
   return response.data
 }
 
