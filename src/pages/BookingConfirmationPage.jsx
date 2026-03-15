@@ -7,6 +7,8 @@ import { fetchTicketsByBooking } from '../api/tickets'
 import { fetchPaymentTransactionsByBooking } from '../api/paymentTransactions'
 import { fetchMovieById } from '../api/movies'
 import { fetchCinemaById } from '../api/cinemas'
+import { fetchShowtimeById } from '../api/showtimes'
+import { fetchAuditoriumById } from '../api/auditorium'
 
 export default function BookingConfirmationPage() {
   const location = useLocation()
@@ -27,32 +29,40 @@ export default function BookingConfirmationPage() {
       setError('')
 
       try {
+        const userId = user?.user_id ?? user?.id
         let bookingId = location.state?.bookingId
 
         // Fallback: load most recent booking for this user if no id was passed.
         if (!bookingId) {
-          const history = await fetchBookingHistoryByUser(user.id)
+          const history = await fetchBookingHistoryByUser(userId)
           if (!history.length) {
             setError('We could not find a recent booking for your account.')
             setLoading(false)
             return
           }
-          bookingId = history[0].id
+          bookingId = history[0].booking_id
         }
 
         const booking = await fetchBookingById(bookingId)
-        if (!booking || booking.user_id !== user.id) {
+        if (!booking || booking.user_id !== userId) {
           setError('This booking does not belong to your account.')
           setLoading(false)
           return
         }
 
-        const [tickets, payments, movie, cinema] = await Promise.all([
-          fetchTicketsByBooking(booking.id),
-          fetchPaymentTransactionsByBooking(booking.id),
+        const [tickets, payments, movie, showtime] = await Promise.all([
+          fetchTicketsByBooking(booking.booking_id),
+          fetchPaymentTransactionsByBooking(booking.booking_id),
           fetchMovieById(booking.movie_id),
-          fetchCinemaById(booking.cinema_id),
+          fetchShowtimeById(booking.showtime_id),
         ])
+
+        const auditorium = showtime?.auditorium_id
+          ? await fetchAuditoriumById(showtime.auditorium_id)
+          : null
+        const cinema = auditorium?.cinema_id
+          ? await fetchCinemaById(auditorium.cinema_id)
+          : null
 
         const successfulPayment =
           payments.find((p) => p.status === 'success') || payments[0] || null
@@ -63,6 +73,7 @@ export default function BookingConfirmationPage() {
           booking,
           tickets,
           movie,
+          showtime,
           cinema,
           payment: successfulPayment,
           seatCount,
@@ -101,7 +112,7 @@ export default function BookingConfirmationPage() {
                 letterSpacing: '-0.01em',
               }}
             >
-              Booking #{summary.booking.id}
+              Booking #{summary.booking.booking_id}
             </h2>
             <div style={{ fontSize: 13, color: 'var(--muted)', display: 'grid', gap: 4 }}>
               <span>
@@ -113,7 +124,7 @@ export default function BookingConfirmationPage() {
               <span>
                 Showtime:{' '}
                 <b>
-                  {new Date(summary.booking.created_at).toLocaleString([], {
+                  {new Date(summary.showtime?.start_time || summary.booking.booking_time).toLocaleString([], {
                     year: 'numeric',
                     month: '2-digit',
                     day: '2-digit',
@@ -126,14 +137,14 @@ export default function BookingConfirmationPage() {
                 Seats: <b>{summary.seatCount}</b>
               </span>
               <span>
-                Total paid: <b>${summary.booking.total_amount.toFixed(2)}</b>
+                Total paid: <b>${Number(summary.booking.total_price).toFixed(2)}</b>
               </span>
               <span>
                 Status: <b>{summary.booking.status}</b>
               </span>
               <span>
                 Payment method:{' '}
-                <b>{summary.payment ? summary.payment.method : 'Not recorded'}</b>
+                <b>{summary.booking.payment_method || 'Not recorded'}</b>
               </span>
             </div>
           </section>

@@ -24,7 +24,7 @@ export default function FakePaymentPage() {
     total,
     resetBooking,
   } = useBooking();
-  const initialMethod = location.state?.paymentMethod || "fake_card";
+  const initialMethod = location.state?.paymentMethod || "card";
   const [paymentMethod] = useState(initialMethod);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -45,10 +45,11 @@ export default function FakePaymentPage() {
     setError("");
 
     try {
+      const userId = user?.user_id ?? user?.id
       if (success) {
         // 1) Final conflict check – only bother when we intend to reserve seats
         const alreadyBookedSeatIds = await fetchBookedSeatIdsForShowtime(
-          showtime.id,
+          showtime.showtime_id,
         );
         const conflicts = selectedSeatIds.filter((id) =>
           alreadyBookedSeatIds.includes(id),
@@ -62,26 +63,20 @@ export default function FakePaymentPage() {
 
         // 2) Create booking
         const bookingPayload = {
-          user_id: user.id,
-          movie_id: movie.id,
-          showtime_id: showtime.id,
-          cinema_id: cinema.id,
-          auditorium_id: showtime.auditorium_id,
-          total_amount: total,
-          status: "completed",
-          promotion_code: promotion?.code || null,
-          created_at: new Date().toISOString(),
+          user_id: userId,
+          movie_id: movie.movie_id,
+          showtime_id: showtime.showtime_id,
+          promotion_id: promotion?.promotion_id || null,
+          booking_time: new Date(),
+          status: "paid",
+          payment_method: paymentMethod,
+          total_price: total,
         };
         const booking = await createBooking(bookingPayload);
 
         // 3) Create tickets for each selected seat
         const ticketsPayload = selectedSeatIds.map((seatId) => ({
-          booking_id: booking.id,
-          user_id: user.id,
-          movie_id: movie.id,
-          showtime_id: showtime.id,
-          cinema_id: cinema.id,
-          auditorium_id: showtime.auditorium_id,
+          booking_id: booking.booking_id,
           seat_id: seatId,
           // seat_label will be derived later from seats data if needed
           price: subtotal / selectedSeatIds.length || 0,
@@ -90,40 +85,49 @@ export default function FakePaymentPage() {
 
         // 4) Create payment transaction
         await createPaymentTransaction({
-          booking_id: booking.id,
-          user_id: user.id,
+          booking_id: booking.booking_id,
           amount: total,
           status: "success",
-          method: paymentMethod,
-          transaction_time: new Date().toISOString(),
-          reference: `FAKE-${booking.id}-OK`,
+          transaction_ref: `FAKE-${booking.booking_id}-OK`,
+          request_id: `REQ-${booking.booking_id}`,
+          response_code: "00",
+          paid_at: new Date(),
+          raw_response: JSON.stringify({
+            provider: paymentMethod,
+            message: "Success",
+          }),
         });
 
         resetBooking();
-        navigate("/booking/confirmation", { state: { bookingId: booking.id } });
+        navigate("/booking/confirmation", {
+          state: { bookingId: booking.booking_id },
+        });
       } else {
         // simulate a failure without reserving seats
         const bookingPayload = {
-          user_id: user.id,
-          movie_id: movie.id,
-          showtime_id: showtime.id,
-          cinema_id: cinema.id,
-          auditorium_id: showtime.auditorium_id,
-          total_amount: total,
-          status: "payment_failed",
-          promotion_code: promotion?.code || null,
-          created_at: new Date().toISOString(),
+          user_id: userId,
+          movie_id: movie.movie_id,
+          showtime_id: showtime.showtime_id,
+          promotion_id: promotion?.promotion_id || null,
+          booking_time: new Date(),
+          status: "cancelled",
+          payment_method: paymentMethod,
+          total_price: total,
         };
         const booking = await createBooking(bookingPayload);
 
         await createPaymentTransaction({
-          booking_id: booking.id,
-          user_id: user.id,
+          booking_id: booking.booking_id,
           amount: total,
           status: "failed",
-          method: paymentMethod,
-          transaction_time: new Date().toISOString(),
-          reference: `FAKE-${booking.id}-FAIL`,
+          transaction_ref: `FAKE-${booking.booking_id}-FAIL`,
+          request_id: `REQ-${booking.booking_id}`,
+          response_code: "99",
+          paid_at: null,
+          raw_response: JSON.stringify({
+            provider: paymentMethod,
+            message: "Failed",
+          }),
         });
 
         setError("Payment failed. You can try again or adjust your booking.");

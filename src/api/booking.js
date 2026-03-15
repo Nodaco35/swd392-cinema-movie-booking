@@ -1,15 +1,15 @@
 import { apiClient } from './client'
 
 export async function createBooking(payload) {
-  // payload should at least contain: user_id, movie_id, showtime_id, cinema_id, auditorium_id, total_amount, status
+  // payload should at least contain: user_id, movie_id, showtime_id, total_price, status
   const response = await apiClient.post('/booking', payload)
   return response.data
 }
 
-export async function updateBookingStatus(bookingId, { status, promotion_code }) {
+export async function updateBookingStatus(bookingId, { status, promotion_id }) {
   const response = await apiClient.patch(`/booking/${bookingId}`, {
     status,
-    promotion_code,
+    promotion_id,
   })
   return response.data
 }
@@ -24,7 +24,7 @@ export async function fetchBookingHistoryByUser(userId) {
   const response = await apiClient.get('/booking', {
     params: {
       user_id: userId,
-      _sort: 'created_at',
+      _sort: 'booking_time',
       _order: 'desc',
     },
   })

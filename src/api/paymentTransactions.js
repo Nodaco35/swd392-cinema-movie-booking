@@ -1,7 +1,7 @@
 import { apiClient } from './client'
 
 export async function createPaymentTransaction(payload) {
-  // payload: booking_id, user_id, amount, status, method, transaction_time, reference
+  // payload: booking_id, amount, status, transaction_ref, request_id, paid_at, response_code, raw_response
   const response = await apiClient.post('/payment_transactions', payload)
   return response.data
 }

@@ -15,7 +15,7 @@ export async function login({ email, password }) {
 
 export async function register({ name, email, password }) {
   const response = await apiClient.post('/users', {
-    name,
+    full_name: name,
     email,
     password,
     role: 'customer',

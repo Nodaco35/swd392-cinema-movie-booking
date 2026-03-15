@@ -112,10 +112,10 @@ export default function RegisterPage() {
         </div>
 
         <div style={{ marginTop: '0.5rem', color: 'rgba(234,240,255,0.72)', fontSize: 12 }}>
-          Authenticated: <b>{String(isAuthenticated)}</b> {user ? `(as ${user.name})` : null}
+          Authenticated: <b>{String(isAuthenticated)}</b>{' '}
+          {user ? `(as ${user.full_name})` : null}
         </div>
       </form>
     </PageShell>
   )
 }
-

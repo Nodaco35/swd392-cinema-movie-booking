@@ -4,11 +4,9 @@ import { PageShell } from "../components/PageShell";
 import { fetchShowtimesByMovieAndDate } from "../api/showtimes";
 import { fetchCinemasForMovieAndDate } from "../api/cinemas";
 import { useBooking } from "../context/BookingContext";
-import { useAuth } from "../context/AuthContext";
 
 export default function ShowtimeSelectionPage() {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
   const { movie, date, cinema, showtime, setDate, setCinema, setShowtime } =
     useBooking();
   const [availableDates, setAvailableDates] = useState([]);
@@ -16,7 +14,6 @@ export default function ShowtimeSelectionPage() {
   const [showtimes, setShowtimes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
 
   // Derive the set of dates for the selected movie from all its showtimes.
   useEffect(() => {
@@ -27,12 +24,12 @@ export default function ShowtimeSelectionPage() {
       try {
         // Fetch all showtimes for this movie, then extract unique dates.
         const allForMovie = await fetchShowtimesByMovieAndDate({
-          movieId: movie.id,
+          movieId: movie.movie_id,
           date: "", // empty like = all for movie
         });
         const dates = Array.from(
           new Set(allForMovie.map((s) => s.start_time.slice(0, 10))),
-        ).sort();
+        ).sort((a, b) => a.localeCompare(b));
         setAvailableDates(dates);
         if (!date && dates.length) {
           setDate(dates[0]);
@@ -54,7 +51,7 @@ export default function ShowtimeSelectionPage() {
       setError("");
       try {
         const result = await fetchCinemasForMovieAndDate({
-          movieId: movie.id,
+          movieId: movie.movie_id,
           date,
         });
         setCinemas(result);
@@ -78,10 +75,12 @@ export default function ShowtimeSelectionPage() {
       setError("");
       try {
         const data = await fetchShowtimesByMovieAndDate({
-          movieId: movie.id,
+          movieId: movie.movie_id,
           date,
         });
-        const filtered = data.filter((s) => s.cinema_id === cinema.id);
+        const filtered = data.filter(
+          (s) => Number(s.Auditorium.cinema_id) === Number(cinema.cinema_id),
+        );
         setShowtimes(filtered);
       } catch (err) {
         setError("Unable to load showtimes for this cinema.");
@@ -203,7 +202,7 @@ export default function ShowtimeSelectionPage() {
               <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
                 {cinemas.map((c) => (
                   <button
-                    key={c.id}
+                    key={c.cinema_id}
                     type="button"
                     className="btn"
                     onClick={() => {
@@ -211,7 +210,7 @@ export default function ShowtimeSelectionPage() {
                       setShowtime(null);
                     }}
                     style={
-                      cinema && c.id === cinema.id
+                      cinema && c.cinema_id === cinema.cinema_id
                         ? {
                             borderColor: "rgba(234,240,255,0.5)",
                             background: "rgba(255,255,255,0.08)",
@@ -244,12 +243,12 @@ export default function ShowtimeSelectionPage() {
               <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
                 {formattedShowtimes.map((s) => (
                   <button
-                    key={s.id}
+                    key={s.showtime_id}
                     type="button"
                     className="btn"
                     onClick={() => setShowtime(s)}
                     style={
-                      showtime && s.id === showtime.id
+                      showtime && s.showtime_id === showtime.showtime_id
                         ? {
                             borderColor: "rgba(234,240,255,0.5)",
                             background: "rgba(255,255,255,0.08)",
@@ -291,7 +290,7 @@ export default function ShowtimeSelectionPage() {
               justifyContent: "space-between",
             }}
           >
-            <Link className="btn" to={`/movies/${movie?.id ?? ""}`}>
+            <Link className="btn" to={`/movies/${movie?.movie_id ?? ""}`}>
               Back to Movie
             </Link>
             <button
