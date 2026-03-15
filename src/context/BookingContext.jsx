@@ -49,7 +49,7 @@ export function BookingProvider({ children }) {
   }, []);
 
   const totals = useMemo(() => {
-    const basePrice = draft.showtime?.base_price ?? 0;
+    const basePrice = Number(draft.showtime?.base_price) || 0;
     const seatCount = draft.selectedSeatIds.length;
     const subtotal = seatCount * basePrice;
 

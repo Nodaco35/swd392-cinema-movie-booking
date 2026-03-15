@@ -1,122 +1,146 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+
+const S = {
+  red: "#e31f26",
+  card: "#ffffff",
+  cardHover: "#fafafa",
+  border: "#e0e0e0",
+  text: "#1a1a1a",
+  textMuted: "#777",
+  gold: "#f5c518",
+};
 
 function formatDuration(minutes) {
   if (!minutes) return "";
   const hrs = Math.floor(minutes / 60);
   const mins = minutes % 60;
-  if (!hrs) return `${mins} min`;
+  if (!hrs) return `${mins} phút`;
   if (!mins) return `${hrs}h`;
   return `${hrs}h ${mins}m`;
 }
 
 function deriveStatus(status) {
-  if (status === "upcoming") return "Coming Soon";
-  if (status === "ended") return "Ended";
-  return "Now Showing";
+  if (status === "upcoming") return "Sắp Chiếu";
+  if (status === "ended") return "Đã Kết Thúc";
+  return "Đang Chiếu";
+}
+
+function RatingBadge({ rating }) {
+  const colors = { P: "#22c55e", T13: "#f59e0b", T18: "#ef4444", C18: "#7c3aed" };
+  return (
+    <span style={{
+      background: colors[rating] || S.red,
+      color: "#fff",
+      fontSize: 10,
+      fontWeight: 800,
+      padding: "2px 6px",
+      borderRadius: 3,
+      letterSpacing: 0.5,
+    }}>{rating || "P"}</span>
+  );
 }
 
 export function MovieCard({ movie }) {
+  const [hovered, setHovered] = useState(false);
   const status = deriveStatus(movie.status);
   const duration = formatDuration(movie.duration);
+  const posterUrl = movie.poster;
 
   return (
     <article
-      className="card"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       style={{
+        cursor: "pointer",
+        background: hovered ? S.cardHover : S.card,
+        borderRadius: 8,
+        overflow: "hidden",
+        border: `1px solid ${hovered ? S.red : S.border}`,
+        transition: "all 0.2s",
+        transform: hovered ? "translateY(-4px)" : "none",
+        boxShadow: hovered ? "0 12px 30px rgba(227,31,38,0.15)" : "0 1px 4px rgba(0,0,0,0.06)",
+        height: "100%",
         display: "flex",
         flexDirection: "column",
-        gap: "0.6rem",
-        height: "100%",
-        background:
-          "linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01))",
       }}
     >
       <Link
         to={`/movies/${movie.movie_id}`}
-        style={{
-          textDecoration: "none",
-          color: "inherit",
-          flex: 1,
-          display: "flex",
-        }}
+        style={{ textDecoration: "none", color: "inherit", flex: 1, display: "flex", flexDirection: "column" }}
       >
-        <div style={{ display: "flex", gap: "0.9rem" }}>
-          <div
-            aria-hidden="true"
-            style={{
-              width: 76,
-              height: 102,
-              borderRadius: 10,
-              backgroundImage: movie.poster
-                ? `url(${movie.poster})`
-                : "linear-gradient(135deg, #6aa3ff, #7c5cff)",
-              backgroundSize: movie.poster ? "cover" : "200% 200%",
-              backgroundPosition: "center",
-              flexShrink: 0,
-            }}
-          />
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "0.2rem",
-              flex: 1,
-            }}
-          >
-            <h2
-              style={{
-                margin: 0,
-                fontSize: "1rem",
-                letterSpacing: "-0.01em",
-                lineHeight: 1.3,
-              }}
-            >
-              {movie.title}
-            </h2>
-            <div
-              style={{
-                fontSize: 12,
-                color: "var(--muted)",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                display: "-webkit-box",
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: "vertical",
-                lineHeight: "1.2",
-                maxHeight: "2.4em",
-              }}
-            >
-              {movie.description}
-            </div>
-            {duration ? (
-              <div style={{ fontSize: 12, color: "var(--muted)" }}>
-                {duration}
-              </div>
-            ) : null}
+        <div style={{ position: "relative" }}>
+          <div style={{
+            width: "100%",
+            height: 280,
+            backgroundImage: posterUrl
+              ? `url(${posterUrl})`
+              : "linear-gradient(135deg, #e31f26, #8b0000)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }} />
+          <div style={{
+            position: "absolute", top: 8, left: 8,
+            display: "flex", gap: 4,
+          }}>
+            <RatingBadge rating={movie.rating} />
           </div>
+          {movie.status === "upcoming" && (
+            <div style={{
+              position: "absolute", top: 8, right: 8,
+              background: "#f59e0b", color: "#000",
+              fontSize: 10, fontWeight: 800,
+              padding: "2px 7px", borderRadius: 3,
+            }}>SẮP CHIẾU</div>
+          )}
+          <div style={{
+            position: "absolute", bottom: 0, left: 0, right: 0,
+            background: "linear-gradient(transparent, rgba(0,0,0,0.6))",
+            padding: "30px 12px 10px",
+          }} />
+        </div>
+
+        <div style={{ padding: "12px 12px 14px", flex: 1, display: "flex", flexDirection: "column" }}>
+          <div style={{
+            fontWeight: 700, fontSize: 14, color: S.text,
+            marginBottom: 4, lineHeight: 1.3,
+          }}>
+            {movie.title}
+          </div>
+          <div style={{
+            fontSize: 12, color: S.textMuted, marginBottom: 8,
+            overflow: "hidden", textOverflow: "ellipsis",
+            display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical",
+            lineHeight: 1.3, maxHeight: "2.6em",
+          }}>
+            {movie.description || movie.genre || ""}
+          </div>
+          <div style={{ marginTop: "auto", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <span style={{
+              padding: "2px 8px", borderRadius: 999,
+              border: `1px solid ${S.border}`,
+              fontSize: 11, color: S.textMuted,
+              background: "#f9f9f9",
+            }}>
+              {status}
+            </span>
+            {duration && (
+              <span style={{ color: S.textMuted, fontSize: 11 }}>{duration}</span>
+            )}
+          </div>
+          {hovered && (
+            <button style={{
+              width: "100%", marginTop: 10,
+              background: S.red, color: "#fff",
+              border: "none", borderRadius: 5,
+              padding: "8px 0", fontWeight: 700,
+              fontSize: 13, cursor: "pointer",
+            }}>
+              MUA VÉ NGAY
+            </button>
+          )}
         </div>
       </Link>
-
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          fontSize: 12,
-          marginTop: "0.25rem",
-        }}
-      >
-        <span
-          style={{
-            padding: "0.2rem 0.6rem",
-            borderRadius: 999,
-            border: "1px solid var(--border)",
-            background: "rgba(0,0,0,0.15)",
-          }}
-        >
-          {status}
-        </span>
-      </div>
     </article>
   );
 }

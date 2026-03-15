@@ -5,37 +5,41 @@ import { fetchShowtimesByMovieAndDate } from "../api/showtimes";
 import { fetchCinemasForMovieAndDate } from "../api/cinemas";
 import { useBooking } from "../context/BookingContext";
 
+const S = {
+  red: "#e31f26",
+  bg: "#ffffff",
+  card: "#f9f9f9",
+  border: "#e0e0e0",
+  text: "#1a1a1a",
+  textMuted: "#777",
+};
+
 export default function ShowtimeSelectionPage() {
   const navigate = useNavigate();
-  const { movie, date, cinema, showtime, setDate, setCinema, setShowtime } =
-    useBooking();
+  const { movie, date, cinema, showtime, setDate, setCinema, setShowtime } = useBooking();
   const [availableDates, setAvailableDates] = useState([]);
   const [cinemas, setCinemas] = useState([]);
   const [showtimes, setShowtimes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Derive the set of dates for the selected movie from all its showtimes.
   useEffect(() => {
     async function loadDates() {
       if (!movie) return;
       setLoading(true);
       setError("");
       try {
-        // Fetch all showtimes for this movie, then extract unique dates.
         const allForMovie = await fetchShowtimesByMovieAndDate({
           movieId: movie.movie_id,
-          date: "", // empty like = all for movie
+          date: "",
         });
         const dates = Array.from(
-          new Set(allForMovie.map((s) => s.start_time.slice(0, 10))),
+          new Set(allForMovie.map((s) => s.start_time.slice(0, 10)))
         ).sort((a, b) => a.localeCompare(b));
         setAvailableDates(dates);
-        if (!date && dates.length) {
-          setDate(dates[0]);
-        }
+        if (!date && dates.length) setDate(dates[0]);
       } catch (err) {
-        setError("Unable to load showtimes for this movie.");
+        setError("Không thể tải lịch chiếu cho phim này.");
       } finally {
         setLoading(false);
       }
@@ -43,23 +47,17 @@ export default function ShowtimeSelectionPage() {
     loadDates();
   }, [movie, date, setDate]);
 
-  // When date changes, load cinemas that have showtimes for this movie/date.
   useEffect(() => {
     async function loadCinemas() {
       if (!movie || !date) return;
       setLoading(true);
       setError("");
       try {
-        const result = await fetchCinemasForMovieAndDate({
-          movieId: movie.movie_id,
-          date,
-        });
+        const result = await fetchCinemasForMovieAndDate({ movieId: movie.movie_id, date });
         setCinemas(result);
-        if (!cinema && result.length) {
-          setCinema(result[0]);
-        }
+        if (!cinema && result.length) setCinema(result[0]);
       } catch (err) {
-        setError("Unable to load cinemas for this date.");
+        setError("Không thể tải danh sách rạp.");
       } finally {
         setLoading(false);
       }
@@ -67,23 +65,19 @@ export default function ShowtimeSelectionPage() {
     loadCinemas();
   }, [movie, date, cinema, setCinema]);
 
-  // When date or cinema changes, load the concrete showtimes for that combination.
   useEffect(() => {
     async function loadShowtimes() {
       if (!movie || !date || !cinema) return;
       setLoading(true);
       setError("");
       try {
-        const data = await fetchShowtimesByMovieAndDate({
-          movieId: movie.movie_id,
-          date,
-        });
+        const data = await fetchShowtimesByMovieAndDate({ movieId: movie.movie_id, date });
         const filtered = data.filter(
-          (s) => Number(s.Auditorium.cinema_id) === Number(cinema.cinema_id),
+          (s) => Number(s.Auditorium.cinema_id) === Number(cinema.cinema_id)
         );
         setShowtimes(filtered);
       } catch (err) {
-        setError("Unable to load showtimes for this cinema.");
+        setError("Không thể tải suất chiếu.");
       } finally {
         setLoading(false);
       }
@@ -91,215 +85,187 @@ export default function ShowtimeSelectionPage() {
     loadShowtimes();
   }, [movie, date, cinema]);
 
-  const movieTitle = movie?.title || "Select Showtime";
-
   const formattedShowtimes = useMemo(
-    () =>
-      showtimes.map((s) => {
-        const start = new Date(s.start_time);
-        return {
-          ...s,
-          startLabel: start.toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
-        };
-      }),
-    [showtimes],
+    () => showtimes.map((s) => ({
+      ...s,
+      startLabel: new Date(s.start_time).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+    })),
+    [showtimes]
   );
 
   return (
     <PageShell
-      title="Showtime Selection"
-      hint={
-        movie
-          ? `Choose a date, cinema, and showtime for "${movieTitle}".`
-          : "First choose a movie, then select a date, cinema, and showtime."
-      }
+      title="Chọn Suất Chiếu"
+      hint={movie ? `Chọn ngày, rạp và suất chiếu cho "${movie.title}".` : "Vui lòng chọn phim trước."}
     >
       {!movie && (
-        <div style={{ color: "#ffb3b3", fontSize: 14 }}>
-          No movie selected. Please go back to the movie list and pick a movie
-          first.
+        <div style={{ color: "#dc2626", fontSize: 14, padding: "20px 0" }}>
+          Chưa chọn phim. <Link to="/" style={{ color: S.red, fontWeight: 600 }}>Quay lại danh sách phim</Link>
         </div>
       )}
 
       {movie && (
         <>
           {error && (
-            <div
-              style={{
-                color: "#ffb3b3",
-                fontSize: 14,
-                marginBottom: "0.75rem",
-              }}
-            >
-              {error}
-            </div>
+            <div style={{ color: "#dc2626", fontSize: 14, marginBottom: 16 }}>{error}</div>
           )}
 
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "minmax(0, 1fr)",
-              gap: "0.9rem",
-              marginTop: "0.5rem",
-            }}
-          >
-            {/* Step 1: Date */}
-            <section className="card">
-              <div
-                style={{
-                  fontSize: 13,
-                  color: "var(--muted)",
-                  marginBottom: "0.4rem",
-                }}
-              >
-                Step 1 · Date
+          {/* Movie info bar */}
+          <div style={{
+            display: "flex", gap: 20, alignItems: "center",
+            marginBottom: 32, background: S.card,
+            borderRadius: 10, padding: 20, border: `1px solid ${S.border}`,
+          }}>
+            <div style={{
+              width: 70, height: 100, borderRadius: 6, flexShrink: 0,
+              backgroundImage: movie.poster ? `url(${movie.poster})` : `linear-gradient(135deg, ${S.red}, #8b0000)`,
+              backgroundSize: "cover", backgroundPosition: "center",
+            }} />
+            <div>
+              <div style={{ color: S.text, fontWeight: 800, fontSize: 18 }}>{movie.title}</div>
+              <div style={{ color: S.textMuted, fontSize: 13, marginTop: 4 }}>
+                {movie.duration ? `${movie.duration} phút` : ""}
               </div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
-                {availableDates.map((d) => (
-                  <button
-                    key={d}
-                    type="button"
-                    className="btn"
-                    onClick={() => {
-                      setDate(d);
-                      setCinema(null);
-                      setShowtime(null);
-                    }}
-                    style={
-                      d === date
-                        ? {
-                            borderColor: "rgba(234,240,255,0.5)",
-                            background: "rgba(255,255,255,0.08)",
-                          }
-                        : undefined
-                    }
-                  >
-                    {d}
-                  </button>
-                ))}
+            </div>
+          </div>
+
+          {/* Steps */}
+          <div style={{ display: "flex", alignItems: "center", marginBottom: 36 }}>
+            {[["1", "Chọn Ngày"], ["2", "Chọn Rạp"], ["3", "Chọn Suất"]].map(([n, l], i) => {
+              const stepDone = (i === 0 && date) || (i === 1 && cinema) || (i === 2 && showtime);
+              const stepActive = (i === 0 && !date) || (i === 1 && date && !cinema) || (i === 2 && cinema && !showtime);
+              return (
+                <div key={n} style={{ display: "flex", alignItems: "center" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <div style={{
+                      width: 32, height: 32, borderRadius: "50%",
+                      background: stepDone || stepActive ? S.red : S.card,
+                      border: `2px solid ${stepDone || stepActive ? S.red : S.border}`,
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      color: stepDone || stepActive ? "#fff" : S.textMuted,
+                      fontWeight: 800, fontSize: 14,
+                    }}>{stepDone ? "✓" : n}</div>
+                    <span style={{ color: stepDone || stepActive ? S.text : S.textMuted, fontWeight: stepActive ? 700 : 400, fontSize: 14 }}>{l}</span>
+                  </div>
+                  {i < 2 && <div style={{ width: 60, height: 2, background: stepDone ? S.red : S.border, margin: "0 12px" }} />}
+                </div>
+              );
+            })}
+          </div>
+
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32 }}>
+            {/* Left: Date + Cinema */}
+            <div>
+              <h3 style={{ color: S.text, marginBottom: 16, fontWeight: 800 }}>Chọn Ngày</h3>
+              <div style={{ display: "flex", gap: 10, marginBottom: 24, flexWrap: "wrap" }}>
+                {availableDates.map((d) => {
+                  const dateObj = new Date(d);
+                  const dayNames = ["CN", "T2", "T3", "T4", "T5", "T6", "T7"];
+                  const isSelected = d === date;
+                  return (
+                    <div
+                      key={d}
+                      onClick={() => { setDate(d); setCinema(null); setShowtime(null); }}
+                      style={{
+                        textAlign: "center", padding: "10px 16px",
+                        background: isSelected ? S.red : "#fff",
+                        borderRadius: 8, cursor: "pointer",
+                        border: `1px solid ${isSelected ? S.red : S.border}`,
+                        minWidth: 70,
+                      }}
+                    >
+                      <div style={{ color: isSelected ? "rgba(255,255,255,0.8)" : S.textMuted, fontSize: 11 }}>
+                        {dayNames[dateObj.getDay()]}
+                      </div>
+                      <div style={{ color: isSelected ? "#fff" : S.text, fontWeight: 800, fontSize: 16 }}>{dateObj.getDate()}</div>
+                      <div style={{ color: isSelected ? "rgba(255,255,255,0.8)" : S.textMuted, fontSize: 11 }}>
+                        Th{dateObj.getMonth() + 1}
+                      </div>
+                    </div>
+                  );
+                })}
                 {!availableDates.length && (
-                  <span style={{ fontSize: 13, color: "var(--muted)" }}>
-                    No showtimes found for this movie.
-                  </span>
+                  <span style={{ fontSize: 13, color: S.textMuted }}>Không có lịch chiếu.</span>
                 )}
               </div>
-            </section>
 
-            {/* Step 2: Cinema */}
-            <section className="card">
-              <div
-                style={{
-                  fontSize: 13,
-                  color: "var(--muted)",
-                  marginBottom: "0.4rem",
-                }}
-              >
-                Step 2 · Cinema
-              </div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
-                {cinemas.map((c) => (
-                  <button
+              <h3 style={{ color: S.text, marginBottom: 16, fontWeight: 800 }}>Chọn Rạp</h3>
+              {cinemas.map((c) => {
+                const isSelected = cinema && c.cinema_id === cinema.cinema_id;
+                return (
+                  <div
                     key={c.cinema_id}
-                    type="button"
-                    className="btn"
-                    onClick={() => {
-                      setCinema(c);
-                      setShowtime(null);
+                    onClick={() => { setCinema(c); setShowtime(null); }}
+                    style={{
+                      padding: "14px 18px", borderRadius: 8, marginBottom: 8,
+                      background: isSelected ? "rgba(227,31,38,0.08)" : "#fff",
+                      border: `1px solid ${isSelected ? S.red : S.border}`,
+                      cursor: "pointer", color: S.text, fontSize: 14,
+                      display: "flex", justifyContent: "space-between", alignItems: "center",
                     }}
-                    style={
-                      cinema && c.cinema_id === cinema.cinema_id
-                        ? {
-                            borderColor: "rgba(234,240,255,0.5)",
-                            background: "rgba(255,255,255,0.08)",
-                          }
-                        : undefined
-                    }
                   >
-                    {c.name}
-                  </button>
-                ))}
-                {date && !cinemas.length && (
-                  <span style={{ fontSize: 13, color: "var(--muted)" }}>
-                    No cinemas available for this date.
-                  </span>
-                )}
-              </div>
-            </section>
+                    <span>📍 {c.name}</span>
+                    {isSelected && <span style={{ color: S.red, fontWeight: 700 }}>✓</span>}
+                  </div>
+                );
+              })}
+              {date && !cinemas.length && (
+                <span style={{ fontSize: 13, color: S.textMuted }}>Không có rạp cho ngày này.</span>
+              )}
+            </div>
 
-            {/* Step 3: Showtime */}
-            <section className="card">
-              <div
-                style={{
-                  fontSize: 13,
-                  color: "var(--muted)",
-                  marginBottom: "0.4rem",
-                }}
-              >
-                Step 3 · Showtime
+            {/* Right: Showtimes */}
+            <div>
+              <h3 style={{ color: S.text, marginBottom: 16, fontWeight: 800 }}>Suất Chiếu</h3>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
+                {formattedShowtimes.map((s) => {
+                  const isSelected = showtime && s.showtime_id === showtime.showtime_id;
+                  return (
+                    <div
+                      key={s.showtime_id}
+                      onClick={() => setShowtime(s)}
+                      style={{
+                        padding: "12px 0", textAlign: "center",
+                        background: isSelected ? S.red : "#fff",
+                        border: `1px solid ${isSelected ? S.red : S.border}`,
+                        borderRadius: 6, cursor: "pointer",
+                        color: isSelected ? "#fff" : S.text,
+                        fontWeight: 700, fontSize: 15,
+                      }}
+                    >
+                      {s.startLabel}
+                    </div>
+                  );
+                })}
               </div>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem" }}>
-                {formattedShowtimes.map((s) => (
-                  <button
-                    key={s.showtime_id}
-                    type="button"
-                    className="btn"
-                    onClick={() => setShowtime(s)}
-                    style={
-                      showtime && s.showtime_id === showtime.showtime_id
-                        ? {
-                            borderColor: "rgba(234,240,255,0.5)",
-                            background: "rgba(255,255,255,0.08)",
-                          }
-                        : undefined
-                    }
-                  >
-                    {s.startLabel}
-                  </button>
-                ))}
-                {cinema && !formattedShowtimes.length && (
-                  <span style={{ fontSize: 13, color: "var(--muted)" }}>
-                    No showtimes for this cinema on the selected date.
-                  </span>
-                )}
-              </div>
-            </section>
+              {cinema && !formattedShowtimes.length && (
+                <span style={{ fontSize: 13, color: S.textMuted }}>Không có suất chiếu cho rạp này.</span>
+              )}
+            </div>
           </div>
 
           {loading && (
-            <div
-              style={{
-                color: "var(--muted)",
-                fontSize: 13,
-                marginTop: "0.5rem",
-              }}
-            >
-              Loading options...
-            </div>
+            <div style={{ color: S.textMuted, fontSize: 13, marginTop: 16 }}>Đang tải...</div>
           )}
 
-          <div
-            style={{
-              marginTop: "1rem",
-              display: "flex",
-              gap: "0.5rem",
-              flexWrap: "wrap",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <Link className="btn" to={`/movies/${movie?.movie_id ?? ""}`}>
-              Back to Movie
+          <div style={{
+            marginTop: 32, display: "flex", justifyContent: "space-between",
+            alignItems: "center", gap: 12, flexWrap: "wrap",
+          }}>
+            <Link
+              to={`/movies/${movie?.movie_id ?? ""}`}
+              className="btn"
+            >
+              ← Quay Lại Phim
             </Link>
             <button
-              className="btn"
+              className="btn btn-primary"
               type="button"
               disabled={!showtime}
               onClick={() => navigate("/seats/select")}
+              style={!showtime ? { opacity: 0.5, cursor: "not-allowed" } : {}}
             >
-              Continue to Seat Selection
+              Tiếp Theo: Chọn Ghế →
             </button>
           </div>
         </>
