@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { fetchMovieById } from "../api/movies";
 import { useBooking } from "../context/BookingContext";
+import TrailerModal from "../components/TrailerModal";
 
 const S = {
   red: "#e31f26",
@@ -32,6 +33,7 @@ export default function MovieDetailsPage() {
   const [movie, setMovieState] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [showTrailer, setShowTrailer] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -126,21 +128,19 @@ export default function MovieDetailsPage() {
                 >
                   MUA VÉ NGAY
                 </button>
-                {movie.trailer_url && (
-                  <a
-                    href={movie.trailer_url}
-                    target="_blank"
-                    rel="noreferrer"
+                {movie.trailer && (
+                  <button
+                    onClick={() => setShowTrailer(true)}
                     style={{
                       background: "rgba(255,255,255,0.15)", color: "#fff",
                       border: "1px solid rgba(255,255,255,0.3)",
                       borderRadius: 6, padding: "12px 24px",
                       fontWeight: 600, fontSize: 15, cursor: "pointer",
-                      textDecoration: "none", display: "inline-flex", alignItems: "center",
+                      display: "inline-flex", alignItems: "center", gap: 8,
                     }}
                   >
-                    ▶ Trailer
-                  </a>
+                    ▶ Xem Trailer
+                  </button>
                 )}
                 <Link
                   to="/"
@@ -208,6 +208,13 @@ export default function MovieDetailsPage() {
           </div>
         </div>
       </div>
+      {showTrailer && movie.trailer && (
+        <TrailerModal
+          trailerUrl={movie.trailer}
+          title={movie.title}
+          onClose={() => setShowTrailer(false)}
+        />
+      )}
     </div>
   );
 }
