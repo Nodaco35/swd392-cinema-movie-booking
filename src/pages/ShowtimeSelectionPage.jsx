@@ -184,10 +184,16 @@ export default function ShowtimeSelectionPage() {
                     </div>
                   );
                 })}
-                {!availableDates.length && (
-                  <span style={{ fontSize: 13, color: S.textMuted }}>Không có lịch chiếu.</span>
-                )}
+              {!availableDates.length && (
+                <span style={{ fontSize: 13, color: S.textMuted }}>Không có lịch chiếu.</span>
+              )}
+            </div>
+            {/* thêm mới: gợi ý chọn ngày khác khi không có suất chiếu */}
+            {date && !cinemas.length && (
+              <div style={{ fontSize: 13, color: S.textMuted, marginBottom: 16 }}>
+                No showtimes for this date. Please choose another date.
               </div>
+            )}
 
               <h3 style={{ color: S.text, marginBottom: 16, fontWeight: 800 }}>Chọn Rạp</h3>
               {cinemas.map((c) => {
@@ -220,10 +226,14 @@ export default function ShowtimeSelectionPage() {
               <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }}>
                 {formattedShowtimes.map((s) => {
                   const isSelected = showtime && s.showtime_id === showtime.showtime_id;
+                  const isSoldOut = Boolean(s.sold_out); //thêm mới
                   return (
                     <div
                       key={s.showtime_id}
-                      onClick={() => setShowtime(s)}
+                      onClick={() => {
+                        if (isSoldOut) return;
+                        setShowtime(s);
+                      }}
                       style={{
                         padding: "12px 0", textAlign: "center",
                         background: isSelected ? S.red : "#fff",
@@ -231,9 +241,17 @@ export default function ShowtimeSelectionPage() {
                         borderRadius: 6, cursor: "pointer",
                         color: isSelected ? "#fff" : S.text,
                         fontWeight: 700, fontSize: 15,
+                        opacity: isSoldOut ? 0.5 : 1,
+                        cursor: isSoldOut ? "not-allowed" : "pointer",
                       }}
                     >
-                      {s.startLabel}
+                      <div>{s.startLabel}</div>
+                      {isSoldOut && (
+                        <div style={{ fontSize: 10, color: isSelected ? "#fff" : "#dc2626" }}>
+                          {/* thêm mới: hiển thị Sold Out */}
+                          Sold Out
+                        </div>
+                      )}
                     </div>
                   );
                 })}

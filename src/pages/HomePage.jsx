@@ -223,12 +223,12 @@ export default function HomePage() {
       </div>
 
       {/* Coming Soon */}
-      {comingSoon.length > 0 && (
-        <div style={{ padding: "0 80px 48px", maxWidth: 1280, margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 28 }}>
-            <div style={{ width: 4, height: 28, background: "#f59e0b", borderRadius: 2 }} />
-            <span style={{ color: S.text, fontSize: 22, fontWeight: 800 }}>Phim Sắp Chiếu</span>
-          </div>
+      <div style={{ padding: "0 80px 48px", maxWidth: 1280, margin: "0 auto" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 28 }}>
+          <div style={{ width: 4, height: 28, background: "#f59e0b", borderRadius: 2 }} />
+          <span style={{ color: S.text, fontSize: 22, fontWeight: 800 }}>Phim Sắp Chiếu</span>
+        </div>
+        {comingSoon.length > 0 ? (
           <div style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
@@ -238,8 +238,13 @@ export default function HomePage() {
               <MovieCard key={m.movie_id} movie={m} />
             ))}
           </div>
-        </div>
-      )}
+        ) : (
+          <div style={{ color: S.textMuted, textAlign: "center", padding: "40px 0" }}>
+            {/* thêm mới thông báo khi không có dữ liệu */}
+            No schedule available for this category
+          </div>
+        )}
+      </div>
 
       {/* Promo Banner */}
       <div style={{
@@ -272,3 +277,4 @@ export default function HomePage() {
     </div>
   );
 }
+

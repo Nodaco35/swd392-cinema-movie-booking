@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+﻿import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { PageShell } from "../components/PageShell";
 import { useAuth } from "../context/AuthContext";
@@ -40,6 +40,12 @@ export default function BookingHistoryPage() {
         const bookings = await fetchBookingHistoryByUser(userId);
         if (!bookings.length) {
           setRows([]);
+          setLoading(false);
+          return;
+        }
+
+        if (bookings.some((b) => b.user_id && b.user_id !== userId)) {
+          setError("Access denied."); //thêm mới
           setLoading(false);
           return;
         }
@@ -141,7 +147,8 @@ export default function BookingHistoryPage() {
             : "—";
 
           const statusColors = {
-            paid: S.green,
+            confirmed: S.green,
+            paid: S.green, //thêm mới
             cancelled: "#ef4444",
             pending: "#f59e0b",
           };
@@ -173,7 +180,13 @@ export default function BookingHistoryPage() {
                   fontSize: 12, fontWeight: 700,
                   border: `1px solid ${statusColors[booking.status] || "#777"}`,
                 }}>
-                  {booking.status === "paid" ? "Đã thanh toán" : booking.status === "cancelled" ? "Đã hủy" : booking.status}
+                  {booking.status === "confirmed"
+                    ? "Đã xác nhận"
+                    : booking.status === "paid"
+                      ? "Đã thanh toán"
+                      : booking.status === "cancelled"
+                        ? "Đã hủy"
+                        : booking.status}
                 </span>
               </div>
 
@@ -191,6 +204,11 @@ export default function BookingHistoryPage() {
                   <div>Thanh toán: <b style={{ color: S.text }}>{booking.payment_method || "—"}</b></div>
                   <div>Tổng: <b style={{ color: S.red }}>{Number(booking.total_price).toLocaleString("vi-VN")}đ</b></div>
                 </div>
+                {!tickets.length && (
+                  <div style={{ marginTop: 8, fontSize: 12, color: "#dc2626" }}>
+                    No tickets available for this booking. {/* //thêm mới */}
+                  </div>
+                )}
               </div>
             </div>
           );
