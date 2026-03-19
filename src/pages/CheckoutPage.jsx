@@ -95,6 +95,7 @@ export default function CheckoutPage() {
   const [promoStatus, setPromoStatus] = useState("");
   const [applyingPromo, setApplyingPromo] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState("card");
+  const [checkoutError, setCheckoutError] = useState(""); //thêm mới
 
   const handleApplyPromotion = async (event) => {
     event.preventDefault();
@@ -145,6 +146,11 @@ export default function CheckoutPage() {
         <div style={{ maxWidth: 600, margin: "0 auto" }}>
           {/* Hold countdown */}
           <HoldCountdown holdUntil={holdUntil} />
+          {checkoutError && (
+            <div style={{ color: "#dc2626", fontSize: 13, marginBottom: 12 }}>
+              {checkoutError}
+            </div>
+          )}
 
           <div
             style={{
@@ -405,11 +411,16 @@ export default function CheckoutPage() {
 
               {/* Pay button */}
               <button
-                onClick={() =>
+                onClick={() => {
+                  if (holdUntil && new Date(holdUntil).getTime() <= Date.now()) {
+                    setCheckoutError("Seat hold expired. Please reselect seats."); //thêm mới
+                    return;
+                  }
+                  setCheckoutError("");
                   navigate("/payment", {
                     state: { paymentMethod, holdUntil },
-                  })
-                }
+                  });
+                }}
                 style={{
                   width: "100%",
                   marginTop: 24,

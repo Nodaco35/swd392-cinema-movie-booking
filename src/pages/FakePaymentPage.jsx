@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { PageShell } from "../components/PageShell";
 import { useAuth } from "../context/AuthContext";
 import { useBooking } from "../context/BookingContext";
-import { createBooking } from "../api/booking";
+import { createBooking, updateBookingStatus } from "../api/booking"; //thêm mới
 import { createTickets } from "../api/tickets";
 import { createPaymentTransaction } from "../api/paymentTransactions";
 import { fetchBookedSeatIdsForShowtime } from "../api/seats";
@@ -76,8 +76,19 @@ export default function FakePaymentPage() {
     setSubmitting(true);
     setError("");
 
+    const userId = user?.user_id ?? user?.id;
+    if (holdUntil && new Date(holdUntil).getTime() <= Date.now()) {
+      setError("Seat hold expired. Please reselect seats."); //thêm mới
+      try {
+        await releaseHolds({ userId, showtimeId: showtime.showtime_id });
+      } catch {
+        // best effort
+      }
+      setSubmitting(false);
+      return;
+    }
+
     try {
-      const userId = user?.user_id ?? user?.id;
       if (success) {
         const alreadyBookedSeatIds = await fetchBookedSeatIdsForShowtime(showtime.showtime_id);
         const conflicts = selectedSeatIds.filter((id) => alreadyBookedSeatIds.includes(id));
@@ -92,7 +103,7 @@ export default function FakePaymentPage() {
           showtime_id: showtime.showtime_id,
           promotion_id: promotion?.promotion_id || null,
           booking_time: new Date(),
-          status: "paid",
+          status: "pending", //thêm mới
           payment_method: paymentMethod,
           total_price: total,
         };
@@ -115,6 +126,10 @@ export default function FakePaymentPage() {
           paid_at: new Date(),
           raw_response: JSON.stringify({ provider: paymentMethod, message: "Success" }),
         });
+        await updateBookingStatus(booking.booking_id, {
+          status: "confirmed",
+          promotion_id: promotion?.promotion_id || null,
+        }); //thêm mới
 
         // Release holds (seats are now booked via tickets)
         try {
@@ -131,7 +146,7 @@ export default function FakePaymentPage() {
           showtime_id: showtime.showtime_id,
           promotion_id: promotion?.promotion_id || null,
           booking_time: new Date(),
-          status: "cancelled",
+          status: "pending", //thêm mới
           payment_method: paymentMethod,
           total_price: total,
         };
@@ -147,11 +162,21 @@ export default function FakePaymentPage() {
           paid_at: null,
           raw_response: JSON.stringify({ provider: paymentMethod, message: "Failed" }),
         });
+        await updateBookingStatus(booking.booking_id, {
+          status: "cancelled",
+          promotion_id: promotion?.promotion_id || null,
+        }); //thêm mới
 
         setError("Thanh toán thất bại. Bạn có thể thử lại.");
       }
     } catch (err) {
-      setError("Đã xảy ra lỗi khi xử lý đặt vé. Vui lòng thử lại.");
+      if (err?.response?.status === 409) {
+        setError("Some seats are no longer available. Please choose again."); //thêm mới
+      } else if (err?.response?.status === 400) {
+        setError(err?.response?.data?.message || "Invalid booking data."); //thêm mới
+      } else {
+        setError("Something went wrong while processing your booking. Please try again."); //thêm mới
+      }
     } finally {
       setSubmitting(false);
     }

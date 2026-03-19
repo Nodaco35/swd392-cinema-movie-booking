@@ -32,6 +32,8 @@ export default function MovieDetailsPage() {
   const [movie, setMovieState] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [trailerOpen, setTrailerOpen] = useState(false); //th�m m?i: popup trailer
+  const [trailerError, setTrailerError] = useState(""); //th�m m?i: l?i trailer
 
   useEffect(() => {
     let isMounted = true;
@@ -45,7 +47,14 @@ export default function MovieDetailsPage() {
           setMovie(data);
         }
       } catch (err) {
-        if (isMounted) setError("Không thể tải thông tin phim.");
+        if (!isMounted) return;
+        //th�m m?i: phim b? x�a -> b�o v� quay v? trang ch?
+        if (err?.response?.status === 404) {
+          setError("This movie no longer exists");
+          setTimeout(() => navigate("/"), 1500);
+          return;
+        }
+        setError("Kh�ng th? t?i th�ng tin phim.");
       } finally {
         if (isMounted) setLoading(false);
       }
@@ -74,6 +83,7 @@ export default function MovieDetailsPage() {
   }
 
   const posterUrl = movie.poster;
+  const trailerUrl = movie.trailer; //th�m m?i: theo DB/model
   const statusLabel = movie.status === "upcoming" ? "Sắp Chiếu" : movie.status === "ended" ? "Đã Kết Thúc" : "Đang Chiếu";
 
   return (
@@ -126,11 +136,13 @@ export default function MovieDetailsPage() {
                 >
                   MUA VÉ NGAY
                 </button>
-                {movie.trailer_url && (
-                  <a
-                    href={movie.trailer_url}
-                    target="_blank"
-                    rel="noreferrer"
+                {trailerUrl && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setTrailerError("");
+                      setTrailerOpen(true);
+                    }}
                     style={{
                       background: "rgba(255,255,255,0.15)", color: "#fff",
                       border: "1px solid rgba(255,255,255,0.3)",
@@ -140,7 +152,7 @@ export default function MovieDetailsPage() {
                     }}
                   >
                     ▶ Trailer
-                  </a>
+                  </button>
                 )}
                 <Link
                   to="/"
@@ -208,6 +220,69 @@ export default function MovieDetailsPage() {
           </div>
         </div>
       </div>
+      {/* th�m m?i: popup trailer + x? l� l?i link */}
+      {trailerOpen && (
+        <div
+          onClick={() => setTrailerOpen(false)}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.7)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 20,
+            zIndex: 50,
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              background: "#111",
+              borderRadius: 10,
+              width: "min(900px, 95vw)",
+              padding: 16,
+              color: "#fff",
+            }}
+          >
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+              <div style={{ fontWeight: 800 }}>{movie.title} - Trailer</div>
+              <button
+                type="button"
+                onClick={() => setTrailerOpen(false)}
+                style={{
+                  background: "transparent",
+                  color: "#fff",
+                  border: "1px solid rgba(255,255,255,0.4)",
+                  borderRadius: 6,
+                  padding: "6px 10px",
+                  cursor: "pointer",
+                }}
+              >
+                Close
+              </button>
+            </div>
+            {trailerError ? (
+              <div style={{ color: "#fca5a5", fontSize: 14 }}>{trailerError}</div>
+            ) : (
+              <video
+                src={trailerUrl}
+                controls
+                autoPlay
+                onError={() => {
+                  //th�m m?i: trailer l?i
+                  setTrailerError("Cannot load trailer at this time");
+                }}
+                style={{ width: "100%", borderRadius: 8, background: "#000" }}
+              />
+            )}
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
+
+
+

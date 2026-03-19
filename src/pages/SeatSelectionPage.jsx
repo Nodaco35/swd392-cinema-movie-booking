@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+﻿import { useEffect, useMemo, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { PageShell } from "../components/PageShell";
 import { useAuth } from "../context/AuthContext";
@@ -106,6 +106,8 @@ export default function SeatSelectionPage() {
     [bookedSeatIds, heldByOtherIds],
   );
 
+  const totalPrice = (showtime?.base_price ?? 0) * selectedSeatIds.length; //thêm mới
+
   // ── Handlers ────────────────────────────────────────────────────────────
   const handleToggleSeat = (seat) => {
     const id = seat.seat_id;
@@ -125,6 +127,27 @@ export default function SeatSelectionPage() {
     if (!selectedSeatIds.length || proceeding) return;
     setProceeding(true);
     setError("");
+    //thêm mới: validate gap rule (no single empty seat)
+    const hasGap = (() => {
+      const occupied = new Set([...selectedSeatIds, ...bookedSeatIds, ...heldByOtherIds]);
+      for (const [, rowSeats] of seatsByRow) {
+        for (let i = 1; i < rowSeats.length - 1; i += 1) {
+          const prev = rowSeats[i - 1];
+          const curr = rowSeats[i];
+          const next = rowSeats[i + 1];
+          const prevOcc = occupied.has(prev.seat_id);
+          const nextOcc = occupied.has(next.seat_id);
+          const currOcc = occupied.has(curr.seat_id);
+          if (!currOcc && prevOcc && nextOcc) return true;
+        }
+      }
+      return false;
+    })();
+    if (hasGap) {
+      setError("Please reselect seats."); //thêm mới
+      setProceeding(false);
+      return;
+    }
     try {
       const result = await holdSeats({
         userId,
@@ -135,23 +158,13 @@ export default function SeatSelectionPage() {
       navigate("/checkout", { state: { holdUntil: result.hold_until } });
     } catch (err) {
       if (err?.response?.status === 409) {
-        const conflicting = err.response.data?.conflicting_seat_ids ?? [];
-        setSelectedSeatIds((prev) =>
-          prev.filter((id) => !conflicting.includes(id)),
-        );
-        setError(
-          `${conflicting.length} ghế vừa được người khác đặt. Vui lòng chọn ghế khác.`,
-        );
-        // Refresh held list immediately
-        try {
-          const held = await fetchHeldSeatIds(showtime.showtime_id, userId);
-          if (!isUnmountedRef.current) setHeldByOtherIds(held);
-        } catch {
-          // ignore
-        }
+        setError("Some seats are no longer available. Please choose again."); //thêm mới
+      } else if (err?.response?.status === 400) {
+        setError("Please reselect seats."); //thêm mới
       } else {
         setError("Không thể giữ ghế. Vui lòng thử lại.");
       }
+    } finally {
       setProceeding(false);
     }
   };
@@ -434,6 +447,12 @@ export default function SeatSelectionPage() {
                   ? `${selectedSeatIds.length} ghế`
                   : "Chưa chọn ghế"}
               </div>
+              {/* //thêm mới: hiển thị tổng giá */}
+              {selectedSeatIds.length > 0 && (
+                <div style={{ color: S.textMuted, fontSize: 12, marginTop: 4 }}>
+                  Total: {totalPrice.toLocaleString("vi-VN")} VND
+                </div>
+              )}
               {selectedSeatIds.length > 0 && (
                 <div
                   style={{ color: S.orange, fontSize: 11, marginTop: 2 }}
