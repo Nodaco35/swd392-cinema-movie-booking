@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { fetchMovieById } from "../api/movies";
 import { useBooking } from "../context/BookingContext";
+import TrailerModal from "../components/TrailerModal";
 
 const S = {
   red: "#e31f26",
@@ -34,6 +35,7 @@ export default function MovieDetailsPage() {
   const [error, setError] = useState("");
   const [trailerOpen, setTrailerOpen] = useState(false); //th�m m?i: popup trailer
   const [trailerError, setTrailerError] = useState(""); //th�m m?i: l?i trailer
+
 
   useEffect(() => {
     let isMounted = true;
@@ -148,10 +150,10 @@ export default function MovieDetailsPage() {
                       border: "1px solid rgba(255,255,255,0.3)",
                       borderRadius: 6, padding: "12px 24px",
                       fontWeight: 600, fontSize: 15, cursor: "pointer",
-                      textDecoration: "none", display: "inline-flex", alignItems: "center",
+                      display: "inline-flex", alignItems: "center", gap: 8,
                     }}
                   >
-                    ▶ Trailer
+                    ▶ Xem Trailer
                   </button>
                 )}
                 <Link
