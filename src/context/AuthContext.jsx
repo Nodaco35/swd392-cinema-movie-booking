@@ -19,7 +19,6 @@ export function AuthProvider({ children }) {
         }
       }
     } catch {
-      // ignore parse errors and start with a clean session
     } finally {
       setInitializing(false)
     }

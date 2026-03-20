@@ -33,8 +33,19 @@ export default function ShowtimeSelectionPage() {
           movieId: movie.movie_id,
           date: "",
         });
+        // Client-side cutoff (15 minutes):
+        // - Only filter showtimes that are in the future and start within next 15 minutes.
+        // - This avoids hiding demo data from historical schedules.
+        const now = Date.now();
+        const cutoff = now + 15 * 60 * 1000;
+        const eligibleForDates = allForMovie.filter((s) => {
+          const t = new Date(s.start_time).getTime();
+          if (!Number.isFinite(t)) return true;
+          return !(t >= now && t < cutoff);
+        });
+
         const dates = Array.from(
-          new Set(allForMovie.map((s) => s.start_time.slice(0, 10)))
+          new Set(eligibleForDates.map((s) => s.start_time.slice(0, 10)))
         ).sort((a, b) => a.localeCompare(b));
         setAvailableDates(dates);
         if (!date && dates.length) setDate(dates[0]);
@@ -72,9 +83,18 @@ export default function ShowtimeSelectionPage() {
       setError("");
       try {
         const data = await fetchShowtimesByMovieAndDate({ movieId: movie.movie_id, date });
-        const filtered = data.filter(
+        const now = Date.now();
+        const cutoff = now + 15 * 60 * 1000;
+        const filtered = data
+          .filter(
           (s) => Number(s.Auditorium.cinema_id) === Number(cinema.cinema_id)
-        );
+          )
+          // Apply cutoff only for showtimes that are in the future.
+          .filter((s) => {
+            const t = new Date(s.start_time).getTime();
+            if (!Number.isFinite(t)) return true;
+            return !(t >= now && t < cutoff);
+          });
         setShowtimes(filtered);
       } catch (err) {
         setError("Không thể tải suất chiếu.");
